@@ -1325,7 +1325,8 @@
                 <div class="row g-2">
                   <div class="col-12">
                     <label class="form-label">Customer</label>
-                    <select class="form-control" id="adv-customer"><option value="">— Select customer —</option></select>
+                    <input class="form-control" id="adv-customer-name" list="customerList" placeholder="Type customer name..." autocomplete="off">
+                    <input type="hidden" id="adv-customer">
                   </div>
                   <div class="col-12"><label class="form-label">Description</label><input class="form-control" id="adv-desc" placeholder="e.g. Visa processing advance"></div>
                   <div class="col-6"><label class="form-label">Amount (Rs.)</label><input type="number" class="form-control" id="adv-amount" placeholder="0.00"></div>
@@ -1362,7 +1363,8 @@
                 <div class="row g-2">
                   <div class="col-12">
                     <label class="form-label">Customer</label>
-                    <select class="form-control" id="loan-customer"><option value="">— Select customer —</option></select>
+                    <input class="form-control" id="loan-customer-name" list="customerList" placeholder="Type customer name..." autocomplete="off">
+                    <input type="hidden" id="loan-customer">
                   </div>
                   <div class="col-12"><label class="form-label">Description</label><input class="form-control" id="loan-desc" placeholder="e.g. Personal loan"></div>
                   <div class="col-6"><label class="form-label">Principal (Rs.)</label><input type="number" class="form-control" id="loan-amount" placeholder="0.00"></div>
@@ -1401,7 +1403,9 @@
                 <div class="row g-2">
                   <div class="col-md-4">
                     <label class="form-label">Customer *</label>
-                    <select class="form-control" id="pay-customer"><option value="">— Select customer —</option></select>
+                    <input class="form-control" id="pay-customer-name" list="customerList" placeholder="Type or select customer name..." autocomplete="off">
+                    <input type="hidden" id="pay-customer">
+                    <datalist id="customerList"></datalist>
                   </div>
                   <div class="col-md-2"><label class="form-label">Payment Date *</label><input type="date" class="form-control" id="pay-date"></div>
                   <div class="col-md-2"><label class="form-label">Amount (Rs.) *</label><input type="number" class="form-control" id="pay-amount" placeholder="0.00"></div>
@@ -1427,8 +1431,8 @@
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <div class="section-title mb-0">Payment History</div>
                   <div class="btns">
-                    <button class="btn btn-sm btn-outline-x" onclick="printPayments()" title="Print"><i class="bi bi-printer"></i> Print</button>
-                    <button class="btn btn-sm btn-outline-x" onclick="downloadPaymentsPdf()" title="PDF"><i class="bi bi-filetype-pdf"></i> PDF</button>
+                    <button class="btn btn-sm btn-outline-x" onclick="printPayments()" title="Print Payment History"><i class="bi bi-printer"></i> Print</button>
+                    <button class="btn btn-sm btn-outline-x" onclick="downloadPaymentsPdf()" title="Download PDF"><i class="bi bi-download"></i> PDF Download</button>
                   </div>
                 </div>
                 <div class="table-responsive">
@@ -1454,6 +1458,7 @@
             <div class="btns">
               <button class="btn btn-outline-x" onclick="loadNaseemMamaExample()" title="Load the handwritten ledger example"><i class="bi bi-person-plus"></i> Load Example: NASEEM MAMA</button>
               <button class="btn btn-outline-x" onclick="loadSahimExample()" title="Load SAHIM sample ledger"><i class="bi bi-person-plus"></i> Load Example: SAHIM</button>
+              <button class="btn btn-outline-x" onclick="loadTayipExample()" title="Load TAYIP sample"><i class="bi bi-person-plus"></i> Load Example: TAYIP</button>
               <button class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#modalAddCustomer"><i class="bi bi-person-plus"></i> Add Customer</button>
             </div>
           </div>
@@ -2357,6 +2362,39 @@
       go('customers');
     }
 
+    function loadTayipExample() {
+      if (!confirm('Add / refresh sample customer TAYIP?')) return;
+      const cid = 'cust_tayip';
+      DB.customers = DB.customers.filter(c => c.id !== cid && c.name.toUpperCase() !== 'TAYIP');
+      DB.advances = DB.advances.filter(a => a.customerId !== cid);
+      DB.loans = DB.loans.filter(l => l.customerId !== cid);
+      if (!DB.payments) DB.payments = [];
+      DB.payments = DB.payments.filter(p => p.customerId !== cid);
+      DB.customers.push({
+        id: cid, name: 'TAYIP', passport: '', mobile: '', email: '', country: '', visa: '', address: '', notes: 'Sample customer TAYIP', created: todayStr()
+      });
+      // Sample advances
+      [
+        {date: todayStr(), amount: 100000, desc: 'Advance Given'},
+        {date: todayStr(), amount: 50000, desc: 'Advance Given'}
+      ].forEach((r, i) => {
+        DB.advances.push({
+          id: 'adv_tayip_' + (i+1), customerId: cid, name: 'TAYIP',
+          amount: r.amount, desc: r.desc, date: r.date, receipt: null, status: 'active', reason: 'Advance'
+        });
+      });
+      // Sample payment
+      DB.payments.push({
+        id: 'pay_tayip_1', customerId: cid, name: 'TAYIP',
+        amount: 30000, desc: 'Payment Received', date: todayStr(), method: 'Cash', reference: '', receipt: null, status: 'completed'
+      });
+      saveDB();
+      refreshAll();
+      viewCustomer(cid);
+      showToast('TAYIP loaded. Given 150,000 / Received 30,000 / Outstanding 120,000');
+      go('customers');
+    }
+
     function addInvoiceItem() {invItems.push({desc: '', qty: 1, price: 0}); renderInvoiceItems();}
     function removeInvoiceItem(i) {invItems.splice(i, 1); if (!invItems.length) invItems = [{desc: '', qty: 1, price: 0}]; renderInvoiceItems();}
     function renderInvoiceItems() {
@@ -2769,16 +2807,51 @@
       });
     }
     function populateAdvLoanCustomerSelects() {
-      const opts = '<option value="">— Select customer —</option>' + DB.customers.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-      const a = document.getElementById('adv-customer');
-      const l = document.getElementById('loan-customer');
-      const p = document.getElementById('pay-customer');
-      if (a) a.innerHTML = opts;
-      if (l) l.innerHTML = opts;
-      if (p) p.innerHTML = opts;
+      const list = document.getElementById('customerList');
+      if (list) {
+        list.innerHTML = DB.customers.map(c => `<option value="${esc(c.name)}" data-id="${c.id}">`).join('');
+      }
+      // Keep hidden id fields in sync when name is typed/selected
+      ['adv', 'loan', 'pay'].forEach(prefix => {
+        const nameEl = document.getElementById(prefix + '-customer-name');
+        const idEl = document.getElementById(prefix + '-customer');
+        if (nameEl && idEl && !nameEl._bound) {
+          nameEl._bound = true;
+          nameEl.addEventListener('change', () => {
+            const name = nameEl.value.trim();
+            const cust = DB.customers.find(c => c.name.toLowerCase() === name.toLowerCase());
+            idEl.value = cust ? cust.id : '';
+          });
+          nameEl.addEventListener('input', () => {
+            const name = nameEl.value.trim();
+            const cust = DB.customers.find(c => c.name.toLowerCase() === name.toLowerCase());
+            idEl.value = cust ? cust.id : '';
+          });
+        }
+      });
+    }
+    function resolveCustomerId(prefix) {
+      const idEl = document.getElementById(prefix + '-customer');
+      const nameEl = document.getElementById(prefix + '-customer-name');
+      if (idEl && idEl.value) return idEl.value;
+      if (nameEl && nameEl.value.trim()) {
+        const name = nameEl.value.trim();
+        let cust = DB.customers.find(c => c.name.toLowerCase() === name.toLowerCase());
+        if (!cust) {
+          // Auto-create customer if new name typed
+          cust = {id: uid(), name: name, passport: '', mobile: '', email: '', country: '', visa: '', address: '', notes: '', created: todayStr()};
+          DB.customers.push(cust);
+          saveDB();
+          populateAdvLoanCustomerSelects();
+          populateCustomerSelect();
+        }
+        if (idEl) idEl.value = cust.id;
+        return cust.id;
+      }
+      return '';
     }
     async function addAdvance() {
-      const custId = document.getElementById('adv-customer').value;
+      const custId = resolveCustomerId('adv');
       const amount = parseFloat(document.getElementById('adv-amount').value) || 0;
       const desc = document.getElementById('adv-desc').value.trim();
       if (!custId) { alert('Please select a customer.'); return; }
@@ -2821,13 +2894,15 @@
       const a = DB.advances.find(x => x.id === id); if (!a) return;
       editingAdvanceId = id;
       // Fill the form
-      const sel = document.getElementById('adv-customer');
-      if (sel) sel.value = a.customerId || '';
+      const idEl = document.getElementById('adv-customer');
+      const nameEl = document.getElementById('adv-customer-name');
+      if (idEl) idEl.value = a.customerId || '';
+      if (nameEl) nameEl.value = a.name || '';
       document.getElementById('adv-desc').value = a.desc || '';
       document.getElementById('adv-amount').value = a.amount || '';
       document.getElementById('adv-date').value = a.date || '';
       // Scroll to form and highlight
-      const formCard = document.getElementById('adv-customer');
+      const formCard = document.getElementById('adv-customer-name') || document.getElementById('adv-customer');
       if (formCard) formCard.scrollIntoView({behavior: 'smooth', block: 'center'});
       showToast('Editing advance — change values and click Save Advance to update.');
       // Change button text temporarily
@@ -2933,7 +3008,7 @@
         </td></tr>`).join('');
     }
     async function addLoan() {
-      const custId = document.getElementById('loan-customer').value;
+      const custId = resolveCustomerId('loan');
       const amount = parseFloat(document.getElementById('loan-amount').value) || 0;
       const desc = document.getElementById('loan-desc').value.trim();
       if (!custId) { alert('Please select a customer.'); return; }
@@ -3014,7 +3089,7 @@
 
     let editingPaymentId = null;
     async function addPayment(andPrint) {
-      const custId = document.getElementById('pay-customer').value;
+      const custId = resolveCustomerId('pay');
       const amount = parseFloat(document.getElementById('pay-amount').value) || 0;
       const desc = document.getElementById('pay-desc').value.trim() || 'Payment Received';
       const method = document.getElementById('pay-method') ? document.getElementById('pay-method').value : 'Cash';
@@ -3074,14 +3149,16 @@
       if (!DB.payments) return;
       const p = DB.payments.find(x => x.id === id); if (!p) return;
       editingPaymentId = id;
-      const sel = document.getElementById('pay-customer');
-      if (sel) sel.value = p.customerId || '';
+      const idEl = document.getElementById('pay-customer');
+      const nameEl = document.getElementById('pay-customer-name');
+      if (idEl) idEl.value = p.customerId || '';
+      if (nameEl) nameEl.value = p.name || '';
       document.getElementById('pay-desc').value = p.desc || '';
       document.getElementById('pay-amount').value = p.amount || '';
       document.getElementById('pay-date').value = p.date || '';
       if (document.getElementById('pay-method')) document.getElementById('pay-method').value = p.method || 'Cash';
       if (document.getElementById('pay-ref')) document.getElementById('pay-ref').value = p.reference || '';
-      const formEl = document.getElementById('pay-customer');
+      const formEl = document.getElementById('pay-customer-name') || document.getElementById('pay-customer');
       if (formEl) formEl.scrollIntoView({behavior: 'smooth', block: 'center'});
       showToast('Editing payment — update fields and click Save.');
       const btn = document.querySelector('button[onclick="addPayment()"]');
@@ -3108,10 +3185,11 @@
         <td>${esc(p.desc || '—')}${p.method ? ' <span class="text-muted small">(' + esc(p.method) + ')</span>' : ''}</td>
         <td class="text-end mono" style="color:var(--ok)">Rs. ${fmt(p.amount)}</td>
         <td>${p.receipt ? `<button class="btn btn-sm btn-outline-x" onclick="openReceipt('${p.id}','payment')" title="View receipt"><i class="bi bi-paperclip"></i></button>` : '—'}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-x" onclick="editPayment('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
-          <button class="btn btn-sm btn-outline-x" onclick="openTransactionDetail('${p.id}','payment')" title="Details"><i class="bi bi-eye"></i></button>
-          <button class="btn btn-sm btn-outline-x" onclick="deletePayment('${p.id}')" title="Delete"><i class="bi bi-trash"></i></button>
+        <td class="text-nowrap">
+          <button class="btn btn-sm btn-outline-x" onclick="editPayment('${p.id}')" title="Edit payment"><i class="bi bi-pencil"></i> Edit</button>
+          <button class="btn btn-sm btn-outline-x" onclick="deletePayment('${p.id}')" title="Delete payment"><i class="bi bi-trash"></i> Delete</button>
+          <button class="btn btn-sm btn-outline-x" onclick="openTransactionDetail('${p.id}','payment')" title="View details"><i class="bi bi-eye"></i></button>
+          ${p.receipt ? `<a class="btn btn-sm btn-outline-x" href="${p.receipt.data}" download="${esc(p.receipt.name)}" title="Download receipt"><i class="bi bi-download"></i></a>` : ''}
         </td>
       </tr>`).join('');
     }
