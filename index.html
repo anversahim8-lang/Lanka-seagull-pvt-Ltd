@@ -1307,40 +1307,46 @@
         <div class="view" id="view-advance-loan">
           <div class="page-head">
             <div>
-              <h1>Advance &amp; Loan Management</h1>
-              <p>Track what's given out and what's still owed.</p>
+              <h1>Advance &amp; Loan Ledger</h1>
+              <p>Customer-linked advances, loans, receipts and outstanding balances.</p>
+            </div>
+            <div class="btns">
+              <button class="btn btn-sm btn-outline-x" onclick="printAdvances()"><i class="bi bi-printer"></i> Print Advances</button>
+              <button class="btn btn-sm btn-outline-x" onclick="downloadAdvancesPdf()"><i class="bi bi-filetype-pdf"></i> Advance PDF</button>
+              <button class="btn btn-sm btn-outline-x" onclick="printLoans()"><i class="bi bi-printer"></i> Print Loans</button>
+              <button class="btn btn-sm btn-outline-x" onclick="downloadLoansPdf()"><i class="bi bi-filetype-pdf"></i> Loan PDF</button>
+              <button class="btn btn-sm btn-brand" onclick="go('reports')"><i class="bi bi-bar-chart"></i> Reports</button>
             </div>
           </div>
           <div class="row g-3">
             <div class="col-lg-6">
               <div class="card-x p-3 mb-3">
-                <div class="section-title mb-3">Record advance</div>
+                <div class="section-title mb-3">Record Advance</div>
                 <div class="row g-2">
-                  <div class="col-6"><input class="form-control" id="adv-name" placeholder="Person name"></div>
-                  <div class="col-6"><input type="number" class="form-control" id="adv-amount"
-                      placeholder="Amount (Rs.)"></div>
-                  <div class="col-6"><input type="date" class="form-control" id="adv-date"></div>
-                  <div class="col-6"><button class="btn btn-brand w-100" onclick="addAdvance()">Save advance</button>
+                  <div class="col-12">
+                    <label class="form-label">Customer</label>
+                    <select class="form-control" id="adv-customer"><option value="">— Select customer —</option></select>
                   </div>
+                  <div class="col-12"><label class="form-label">Description</label><input class="form-control" id="adv-desc" placeholder="e.g. Visa processing advance"></div>
+                  <div class="col-6"><label class="form-label">Amount (Rs.)</label><input type="number" class="form-control" id="adv-amount" placeholder="0.00"></div>
+                  <div class="col-6"><label class="form-label">Date</label><input type="date" class="form-control" id="adv-date"></div>
+                  <div class="col-12"><label class="form-label">Receipt (PDF / JPG / PNG)</label><input type="file" class="form-control" id="adv-receipt" accept=".pdf,.jpg,.jpeg,.png,image/*,application/pdf"></div>
+                  <div class="col-12"><button class="btn btn-brand w-100" onclick="addAdvance()"><i class="bi bi-save"></i> Save Advance</button></div>
                 </div>
               </div>
               <div class="card-x p-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div class="section-title">Advance history</div>
-                  <div class="btns">
-                    <button class="btn btn-sm btn-outline-x" onclick="printAdvances()" title="Print"><i
-                        class="bi bi-printer"></i></button>
-                    <button class="btn btn-sm btn-outline-x" onclick="downloadAdvancesPdf()" title="PDF"><i
-                        class="bi bi-filetype-pdf"></i></button>
-                  </div>
+                  <div class="section-title">Advance History</div>
                 </div>
                 <div class="table-responsive">
                   <table class="table-x">
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Name</th>
+                        <th>Customer</th>
+                        <th>Description</th>
                         <th class="text-end">Amount</th>
+                        <th>Receipt</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -1352,34 +1358,34 @@
             </div>
             <div class="col-lg-6">
               <div class="card-x p-3 mb-3">
-                <div class="section-title mb-3">Record loan</div>
+                <div class="section-title mb-3">Record Loan</div>
                 <div class="row g-2">
-                  <div class="col-6"><input class="form-control" id="loan-name" placeholder="Person name"></div>
-                  <div class="col-6"><input type="number" class="form-control" id="loan-amount"
-                      placeholder="Principal (Rs.)"></div>
-                  <div class="col-6"><input type="date" class="form-control" id="loan-date"></div>
-                  <div class="col-6"><button class="btn btn-brand w-100" onclick="addLoan()">Save loan</button></div>
+                  <div class="col-12">
+                    <label class="form-label">Customer</label>
+                    <select class="form-control" id="loan-customer"><option value="">— Select customer —</option></select>
+                  </div>
+                  <div class="col-12"><label class="form-label">Description</label><input class="form-control" id="loan-desc" placeholder="e.g. Personal loan"></div>
+                  <div class="col-6"><label class="form-label">Principal (Rs.)</label><input type="number" class="form-control" id="loan-amount" placeholder="0.00"></div>
+                  <div class="col-6"><label class="form-label">Date</label><input type="date" class="form-control" id="loan-date"></div>
+                  <div class="col-12"><label class="form-label">Receipt (PDF / JPG / PNG)</label><input type="file" class="form-control" id="loan-receipt" accept=".pdf,.jpg,.jpeg,.png,image/*,application/pdf"></div>
+                  <div class="col-12"><button class="btn btn-brand w-100" onclick="addLoan()"><i class="bi bi-save"></i> Save Loan</button></div>
                 </div>
               </div>
               <div class="card-x p-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div class="section-title">Loans &amp; repayment balance</div>
-                  <div class="btns">
-                    <button class="btn btn-sm btn-outline-x" onclick="printLoans()" title="Print"><i
-                        class="bi bi-printer"></i></button>
-                    <button class="btn btn-sm btn-outline-x" onclick="downloadLoansPdf()" title="PDF"><i
-                        class="bi bi-filetype-pdf"></i></button>
-                  </div>
+                  <div class="section-title">Loans &amp; Repayment Balance</div>
                 </div>
                 <div class="table-responsive">
                   <table class="table-x">
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Name</th>
+                        <th>Customer</th>
                         <th class="text-end">Principal</th>
                         <th class="text-end">Repaid</th>
                         <th class="text-end">Balance</th>
+                        <th>Receipt</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody id="loanBody"></tbody>
@@ -1388,6 +1394,53 @@
                 <div id="loanEmpty" class="empty-state"><i class="bi bi-bank"></i>No loans recorded.</div>
               </div>
             </div>
+
+            <div class="col-lg-12 mt-3">
+              <div class="card-x p-3 mb-3">
+                <div class="section-title mb-3">Record Payment Received</div>
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <label class="form-label">Customer *</label>
+                    <select class="form-control" id="pay-customer"><option value="">— Select customer —</option></select>
+                  </div>
+                  <div class="col-md-2"><label class="form-label">Payment Date *</label><input type="date" class="form-control" id="pay-date"></div>
+                  <div class="col-md-2"><label class="form-label">Amount (Rs.) *</label><input type="number" class="form-control" id="pay-amount" placeholder="0.00"></div>
+                  <div class="col-md-2">
+                    <label class="form-label">Payment Method</label>
+                    <select class="form-control" id="pay-method">
+                      <option value="Cash">Cash</option>
+                      <option value="Bank Transfer">Bank Transfer</option>
+                      <option value="Cheque">Cheque</option>
+                      <option value="Online Payment">Online Payment</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2"><label class="form-label">Reference No.</label><input class="form-control" id="pay-ref" placeholder="Cheque/Txn ref"></div>
+                  <div class="col-md-6"><label class="form-label">Notes / Description</label><input class="form-control" id="pay-desc" placeholder="e.g. Partial settlement"></div>
+                  <div class="col-md-3"><label class="form-label">Attach Receipt (PDF/JPG/PNG)</label><input type="file" class="form-control" id="pay-receipt" accept=".pdf,.jpg,.jpeg,.png,image/*,application/pdf"></div>
+                  <div class="col-md-3 d-flex align-items-end gap-2">
+                    <button class="btn btn-brand flex-grow-1" onclick="addPayment()"><i class="bi bi-cash-coin"></i> Save Payment</button>
+                    <button class="btn btn-outline-x" onclick="addPayment(true)" title="Save and print receipt"><i class="bi bi-printer"></i> Save &amp; Print</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-x p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="section-title mb-0">Payment History</div>
+                  <div class="btns">
+                    <button class="btn btn-sm btn-outline-x" onclick="printPayments()" title="Print"><i class="bi bi-printer"></i> Print</button>
+                    <button class="btn btn-sm btn-outline-x" onclick="downloadPaymentsPdf()" title="PDF"><i class="bi bi-filetype-pdf"></i> PDF</button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table-x">
+                    <thead><tr><th>Date</th><th>Customer</th><th>Description</th><th class="text-end">Amount</th><th>Receipt</th><th></th></tr></thead>
+                    <tbody id="paymentBody"></tbody>
+                  </table>
+                </div>
+                <div id="paymentEmpty" class="empty-state"><i class="bi bi-cash"></i>No payments recorded.</div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -1398,8 +1451,11 @@
               <h1>Customer Management</h1>
               <p>Passport, visa type, and full payment history in one place.</p>
             </div>
-            <div class="btns"><button class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#modalAddCustomer"><i
-                  class="bi bi-person-plus"></i> Add Customer</button></div>
+            <div class="btns">
+              <button class="btn btn-outline-x" onclick="loadNaseemMamaExample()" title="Load the handwritten ledger example"><i class="bi bi-person-plus"></i> Load Example: NASEEM MAMA</button>
+              <button class="btn btn-outline-x" onclick="loadSahimExample()" title="Load SAHIM sample ledger"><i class="bi bi-person-plus"></i> Load Example: SAHIM</button>
+              <button class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#modalAddCustomer"><i class="bi bi-person-plus"></i> Add Customer</button>
+            </div>
           </div>
           <div class="card-x p-3 mb-3">
             <input class="form-control" id="filter-cust-text"
@@ -1547,16 +1603,16 @@
             data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <label class="form-label">Full name</label><input class="form-control mb-3" id="c-name">
           <div class="row g-2">
-            <div class="col-6"><label class="form-label">Passport #</label><input class="form-control mb-3 mono"
-                id="c-passport"></div>
-            <div class="col-6"><label class="form-label">Mobile</label><input class="form-control mb-3" id="c-mobile">
-            </div>
-            <div class="col-6"><label class="form-label">Country</label><input class="form-control mb-3" id="c-country">
-            </div>
-            <div class="col-6"><label class="form-label">Visa type</label><input class="form-control mb-3" id="c-visa">
-            </div>
+            <div class="col-12"><label class="form-label">Full Name *</label><input class="form-control mb-2" id="c-name" required></div>
+            <div class="col-6"><label class="form-label">NIC / Passport #</label><input class="form-control mb-2 mono" id="c-passport"></div>
+            <div class="col-6"><label class="form-label">Mobile *</label><input class="form-control mb-2" id="c-mobile"></div>
+            <div class="col-6"><label class="form-label">Email</label><input type="email" class="form-control mb-2" id="c-email"></div>
+            <div class="col-6"><label class="form-label">Country</label><input class="form-control mb-2" id="c-country"></div>
+            <div class="col-12"><label class="form-label">Address</label><textarea class="form-control mb-2" id="c-address" rows="2" placeholder="Full address"></textarea></div>
+            <div class="col-12"><label class="form-label">Notes</label><textarea class="form-control mb-2" id="c-notes" rows="2" placeholder="Internal notes"></textarea></div>
+            <div class="col-6"><label class="form-label">Visa type</label><input class="form-control mb-2" id="c-visa"></div>
+            <div class="col-6"><label class="form-label">Customer ID</label><input class="form-control mb-2 mono" id="c-id-display" readonly placeholder="Auto-generated"></div>
           </div>
         </div>
         <div class="modal-footer"><button class="btn btn-outline-x" data-bs-dismiss="modal">Cancel</button><button
@@ -1597,6 +1653,35 @@
     <p>&copy; 2026 Lanka Seagull (pvt) Ltd· Web Developer Anver Sahim</p>
   </div>
   <!-- Hidden print root -->
+  <!-- ============ MODAL: TRANSACTION DETAIL ============ -->
+  <div class="modal fade" id="modalTxnDetail" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content" style="background:var(--card); color:var(--ink);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="txnDetailTitle">Transaction Detail</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="txnDetailBody"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-x" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: RECEIPT VIEWER ============ -->
+  <div class="modal fade" id="modalReceipt" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content" style="background:var(--card); color:var(--ink);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="receiptModalTitle">Receipt</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="receiptModalBody"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="printRoot" style="display:none;"></div>
 
   <!-- ============ FIREBASE (CLOUD SYNC) ============ -->
@@ -1764,8 +1849,38 @@
       catch (e) {return defaultDB();}
     }
     function defaultDB() {
+      // Sample customer from handwritten ledger example: NASEEM MAMA
+      const naseemId = 'cust_naseem_mama';
       return {
-        customers: [], invoices: [], stock: [], movements: [], expenses: [], advances: [], loans: [],
+        customers: [{
+          id: naseemId,
+          name: 'NASEEM MAMA',
+          passport: '',
+          mobile: '',
+          country: '',
+          visa: '',
+          address: '',
+          created: '2026-08-03'
+        }],
+        invoices: [],
+        stock: [],
+        movements: [],
+        expenses: [],
+        payments: [],
+        advances: [
+          {id: 'adv1', customerId: naseemId, name: 'NASEEM MAMA', amount: 20000, desc: 'Bank Receipt — SUMRY (Note Bill)', date: '2026-08-03', receipt: null, status: 'active', reason: 'Note Bill'},
+          {id: 'adv2', customerId: naseemId, name: 'NASEEM MAMA', amount: 10000, desc: 'Bank Receipt — SUMRY (Note Bill)', date: '2026-08-03', receipt: null, status: 'active', reason: 'Note Bill'},
+          {id: 'adv3', customerId: naseemId, name: 'NASEEM MAMA', amount: 10000, desc: 'Bank Receipt — SIRAIJDEEN (Advance)', date: '2026-08-05', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv4', customerId: naseemId, name: 'NASEEM MAMA', amount: 30000, desc: 'Bank Receipt — HASNIB (Advance)', date: '2026-08-07', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv5', customerId: naseemId, name: 'NASEEM MAMA', amount: 20000, desc: 'Bank Receipt — HANSIB (Note Bill)', date: '2026-08-09', receipt: null, status: 'active', reason: 'Note Bill'},
+          {id: 'adv6', customerId: naseemId, name: 'NASEEM MAMA', amount: 25000, desc: 'Bank Receipt — NASEEM (Advance)', date: '2026-08-09', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv7', customerId: naseemId, name: 'NASEEM MAMA', amount: 50000, desc: 'Bank Receipt — NASEEM (Advance)', date: '2026-08-09', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv8', customerId: naseemId, name: 'NASEEM MAMA', amount: 30000, desc: 'Bank Receipt — NASEEM (Advance)', date: '2026-08-13', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv9', customerId: naseemId, name: 'NASEEM MAMA', amount: 50000, desc: 'Bank Receipt — NASEEM (Advance)', date: '2026-08-13', receipt: null, status: 'active', reason: 'Advance'},
+          {id: 'adv10', customerId: naseemId, name: 'NASEEM MAMA', amount: 38500, desc: 'Bank Receipt — SUMRY (Note Bill)', date: '2026-08-14', receipt: null, status: 'active', reason: 'Note Bill'},
+          {id: 'adv11', customerId: naseemId, name: 'NASEEM MAMA', amount: 34200, desc: 'Bank Receipt — SUMRY (Note Bill)', date: '2026-08-14', receipt: null, status: 'active', reason: 'Note Bill'}
+        ],
+        loans: [],
         settings: {company: 'Lanka Seagull Marine Company', prefix: 'INV-', nextNum: 1}
       };
     }
@@ -1822,8 +1937,11 @@
         name,
         passport: document.getElementById('c-passport').value.trim(),
         mobile: document.getElementById('c-mobile').value.trim(),
+        email: document.getElementById('c-email').value.trim(),
         country: document.getElementById('c-country').value.trim(),
-        visa: document.getElementById('c-visa').value.trim()
+        visa: document.getElementById('c-visa').value.trim(),
+        address: document.getElementById('c-address').value.trim(),
+        notes: document.getElementById('c-notes').value.trim()
       };
       if (editingCustomerId) {
         const existing = DB.customers.find(c => c.id === editingCustomerId);
@@ -1839,7 +1957,7 @@
     }
     function resetCustomerModal() {
       editingCustomerId = null;
-      ['c-name', 'c-passport', 'c-mobile', 'c-country', 'c-visa'].forEach(id => document.getElementById(id).value = '');
+      ['c-name', 'c-passport', 'c-mobile', 'c-email', 'c-country', 'c-visa', 'c-address', 'c-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); document.getElementById('c-id-display').value = '';
       document.getElementById('customerModalTitle').textContent = 'Add Customer';
       document.getElementById('customerModalSaveBtn').textContent = 'Save customer';
     }
@@ -1850,8 +1968,12 @@
       document.getElementById('c-name').value = c.name || '';
       document.getElementById('c-passport').value = c.passport || '';
       document.getElementById('c-mobile').value = c.mobile || '';
+      document.getElementById('c-email').value = c.email || '';
       document.getElementById('c-country').value = c.country || '';
       document.getElementById('c-visa').value = c.visa || '';
+      document.getElementById('c-address').value = c.address || '';
+      document.getElementById('c-notes').value = c.notes || '';
+      document.getElementById('c-id-display').value = c.id || '';
       document.getElementById('customerModalTitle').textContent = 'Edit Customer';
       document.getElementById('customerModalSaveBtn').textContent = 'Update customer';
       new bootstrap.Modal(document.getElementById('modalAddCustomer')).show();
@@ -1922,28 +2044,319 @@
     function viewCustomer(id) {
       const c = DB.customers.find(x => x.id === id); if (!c) return;
       const invs = DB.invoices.filter(i => i.customerId === id);
-      const paid = invs.reduce((s, i) => s + Number(i.paid || 0), 0);
-      const total = invs.reduce((s, i) => s + Number(i.total || 0), 0);
+      const advs = DB.advances.filter(a => a.customerId === id);
+      const loans = DB.loans.filter(l => l.customerId === id);
+      if (!DB.payments) DB.payments = [];
+      const pays = DB.payments.filter(p => p.customerId === id);
+      const invPaid = invs.reduce((s, i) => s + Number(i.paid || 0), 0);
+      const invTotal = invs.reduce((s, i) => s + Number(i.total || 0), 0);
+      const totalAdvance = advs.reduce((s, a) => s + Number(a.amount || 0), 0);
+      const totalLoan = loans.reduce((s, l) => s + Number(l.principal || 0), 0);
+      const totalRepaid = loans.reduce((s, l) => s + Number(l.repaid || 0), 0);
+      const totalPayments = pays.reduce((s, p) => s + Number(p.amount || 0), 0);
+      // Total Given = advances + loans (money out)
+      const totalGiven = totalAdvance + totalLoan;
+      // Total Received = payments + invoice paid + loan repayments
+      const totalReceived = totalPayments + invPaid + totalRepaid;
+      const outstanding = Math.max(0, totalGiven - totalReceived);
+      const numTx = advs.length + loans.length + pays.length + invs.length;
+      const numReceipts = [...advs, ...loans, ...pays].filter(x => x.receipt).length;
+
+      // Build chronological ledger with running balance (oldest first for balance calc)
+      const rawTxs = [
+        ...advs.map(a => ({date: a.date, desc: a.desc || 'Advance Given', amount: a.amount, type: 'advance', id: a.id, receipt: a.receipt, status: a.status || 'active', debit: a.amount, credit: 0})),
+        ...loans.map(l => ({date: l.date, desc: l.desc || 'Loan Given', amount: l.principal, type: 'loan', id: l.id, receipt: l.receipt, status: l.status || 'active', debit: l.principal, credit: 0})),
+        ...pays.map(p => ({date: p.date, desc: (p.desc || 'Payment Received') + (p.method ? ' [' + p.method + ']' : ''), amount: p.amount, type: 'payment', id: p.id, receipt: p.receipt, status: p.status || 'completed', debit: 0, credit: p.amount})),
+        ...invs.map(i => ({date: i.date, desc: 'Invoice ' + i.number, amount: i.total, type: 'invoice', id: i.id, receipt: null, status: i.status, debit: i.total, credit: Number(i.paid||0)}))
+      ].sort((a, b) => (a.date || '').localeCompare(b.date || '') || (a.id || '').localeCompare(b.id || ''));
+
+      let runBal = 0;
+      const txsWithBal = rawTxs.map(t => {
+        runBal += (t.debit || 0) - (t.credit || 0);
+        return {...t, balance: runBal};
+      });
+      // Display newest first
+      const txs = txsWithBal.slice().reverse();
+
+      const txRows = txs.length ? txs.map(t => `
+        <tr style="cursor:pointer;" onclick="openTransactionDetail('${t.id}','${t.type}')">
+          <td>${t.date}</td>
+          <td><span class="badge-status badge-${t.type === 'payment' ? 'ok' : (t.type === 'advance' || t.type === 'loan' ? 'partial' : 'saved')}">${t.type === 'advance' ? 'Advance Given' : (t.type === 'loan' ? 'Loan Given' : (t.type === 'payment' ? 'Payment Received' : t.type))}</span><br><span class="small">${esc(t.desc)}</span></td>
+          <td class="text-end mono">${t.debit ? 'Rs. ' + fmt(t.debit) : '—'}</td>
+          <td class="text-end mono" style="color:var(--ok)">${t.credit ? 'Rs. ' + fmt(t.credit) : '—'}</td>
+          <td class="text-end mono fw-bold">${'Rs. ' + fmt(t.balance)}</td>
+          <td>${t.receipt ? '<i class="bi bi-paperclip text-primary"></i>' : '—'}</td>
+        </tr>`).join('') : '<tr><td colspan="6" class="text-muted">No transactions yet.</td></tr>';
+
       document.getElementById('customerProfile').innerHTML = `
-    <div class="mb-2"><strong style="font-size:1.05rem;">${esc(c.name)}</strong></div>
-    <div class="text-muted small mb-3">${esc(c.country || '—')}</div>
-    <div class="d-flex justify-content-between mb-1"><span class="text-muted">Mobile</span><span>${esc(c.mobile || '—')}</span></div>
-    <hr>
-    <div class="d-flex justify-content-between mb-1"><span class="text-muted">Invoices</span><span>${invs.length}</span></div>
-    <div class="d-flex justify-content-between mb-1"><span class="text-muted">Total billed</span><span class="mono">Rs. ${fmt(total)}</span></div>
-    <div class="d-flex justify-content-between mb-3"><span class="text-muted">Total paid</span><span class="mono">Rs. ${fmt(paid)}</span></div>
-    <div class="section-title mb-2" style="font-size:.85rem;">Payment history</div>
-    ${invs.length ? invs.map(i => `<div class="d-flex justify-content-between small mb-1"><span>${i.number} · ${i.date}</span><span class="mono">Rs. ${fmt(i.paid)}</span></div>`).join('') : '<div class="text-muted small">No invoices yet.</div>'}
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <div>
+        <strong style="font-size:1.15rem;">${esc(c.name)}</strong>
+        <div class="text-muted small mono">ID: ${esc(c.id)}</div>
+      </div>
+      <button class="btn btn-sm btn-outline-x" onclick="editCustomer('${c.id}')"><i class="bi bi-pencil"></i></button>
+    </div>
+    <div class="small mb-1"><i class="bi bi-phone"></i> ${esc(c.mobile || '—')}</div>
+    <div class="small mb-1"><i class="bi bi-envelope"></i> ${esc(c.email || '—')}</div>
+    <div class="small mb-1"><i class="bi bi-card-text"></i> NIC/Passport: ${esc(c.passport || '—')}</div>
+    <div class="small mb-1"><i class="bi bi-geo-alt"></i> ${esc(c.address || 'No address')}</div>
+    <div class="small text-muted mb-2">Created: ${esc(c.created || '—')}</div>
+    ${c.notes ? '<div class="small mb-2 p-2 rounded" style="background:var(--bg);"><strong>Notes:</strong> ' + esc(c.notes) + '</div>' : ''}
+    <div class="row g-2 mb-3">
+      <div class="col-6"><div class="p-2 rounded" style="background:var(--bg);"><div class="text-muted small">Total Given</div><div class="mono fw-bold text-primary">Rs. ${fmt(totalGiven)}</div></div></div>
+      <div class="col-6"><div class="p-2 rounded" style="background:var(--bg);"><div class="text-muted small">Total Received</div><div class="mono fw-bold" style="color:var(--ok)">Rs. ${fmt(totalReceived)}</div></div></div>
+      <div class="col-6"><div class="p-2 rounded" style="background:var(--bg);"><div class="text-muted small">Outstanding Balance</div><div class="mono fw-bold" style="color:var(--danger)">Rs. ${fmt(outstanding)}</div></div></div>
+      <div class="col-6"><div class="p-2 rounded" style="background:var(--bg);"><div class="text-muted small">Transactions / Receipts</div><div class="mono fw-bold">${numTx} / ${numReceipts}</div></div></div>
+    </div>
+    <div class="d-flex gap-2 mb-3 flex-wrap">
+      <button class="btn btn-sm btn-outline-x" onclick="printCustomerLedger('${c.id}')"><i class="bi bi-printer"></i> Print</button>
+      <button class="btn btn-sm btn-outline-x" onclick="downloadCustomerLedgerPdf('${c.id}')"><i class="bi bi-filetype-pdf"></i> PDF</button>
+      <button class="btn btn-sm btn-outline-x" onclick="exportCustomerExcel('${c.id}')"><i class="bi bi-file-earmark-excel"></i> Excel</button>
+    </div>
+    <div class="section-title mb-2" style="font-size:.85rem;">Transaction Ledger <span class="text-muted">(${txs.length})</span></div>
+    <div class="table-responsive" style="max-height:360px;overflow:auto;">
+      <table class="table-x" style="font-size:.8rem;">
+        <thead><tr><th>Date</th><th>Type / Description</th><th class="text-end">Debit (Given)</th><th class="text-end">Credit (Received)</th><th class="text-end">Balance</th><th>Receipt</th></tr></thead>
+        <tbody>${txRows}</tbody>
+      </table>
+    </div>
   `;
     }
+    function openTransactionDetail(id, type) {
+      let item = null;
+      if (type === 'advance') item = DB.advances.find(x => x.id === id);
+      else if (type === 'loan') item = DB.loans.find(x => x.id === id);
+      else if (type === 'payment') item = (DB.payments || []).find(x => x.id === id);
+      else if (type === 'invoice') item = DB.invoices.find(x => x.id === id);
+      if (!item) { alert('Transaction not found.'); return; }
+      const cust = DB.customers.find(c => c.id === item.customerId);
+      const amount = item.amount || item.principal || item.total || 0;
+      const receiptHtml = item.receipt ? `
+        <div class="mb-2"><strong>Attached Receipt:</strong> ${esc(item.receipt.name)}</div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-sm btn-brand" onclick="openReceipt('${id}','${type}')"><i class="bi bi-eye"></i> Preview Receipt</button>
+          <a class="btn btn-sm btn-outline-x" href="${item.receipt.data}" download="${esc(item.receipt.name)}"><i class="bi bi-download"></i> Download</a>
+          <button class="btn btn-sm btn-outline-x" onclick="printReceipt('${id}','${type}')"><i class="bi bi-printer"></i> Print Receipt</button>
+        </div>` : '<div class="text-muted">No receipt attached.</div>';
+      const methodRow = item.method ? `<div class="col-6"><div class="text-muted small">Payment Method</div><div>${esc(item.method)}</div></div>` : '';
+      const refRow = item.reference ? `<div class="col-6"><div class="text-muted small">Reference No.</div><div class="mono">${esc(item.reference)}</div></div>` : '';
+      const printPayBtn = type === 'payment' ? `<button class="btn btn-sm btn-outline-x" onclick="printPaymentReceipt('${id}')"><i class="bi bi-printer"></i> Print Payment Receipt</button>` : '';
+      document.getElementById('txnDetailBody').innerHTML = `
+        <div class="row g-2 mb-3">
+          <div class="col-6"><div class="text-muted small">Transaction / Receipt No.</div><div class="mono">${esc(item.id)}</div></div>
+          <div class="col-6"><div class="text-muted small">Type</div><div><span class="badge-status badge-ok">${type === 'payment' ? 'Payment Received' : type}</span></div></div>
+          <div class="col-6"><div class="text-muted small">Customer</div><div>${esc(cust ? cust.name : item.name || '—')}</div></div>
+          <div class="col-6"><div class="text-muted small">Date</div><div>${esc(item.date)}</div></div>
+          <div class="col-6"><div class="text-muted small">Amount</div><div class="mono fw-bold">Rs. ${fmt(amount)}</div></div>
+          <div class="col-6"><div class="text-muted small">Status</div><div>${esc(item.status || 'active')}</div></div>
+          ${methodRow}${refRow}
+          <div class="col-12"><div class="text-muted small">Description / Notes</div><div>${esc(item.desc || item.reason || '—')}</div></div>
+          ${item.repaid != null ? '<div class="col-6"><div class="text-muted small">Repaid</div><div class="mono">Rs. ' + fmt(item.repaid) + '</div></div>' : ''}
+        </div>
+        <hr>
+        ${receiptHtml}
+        <div class="mt-2">${printPayBtn}</div>
+      `;
+      document.getElementById('txnDetailTitle').textContent = 'Transaction Detail — ' + type.toUpperCase();
+      new bootstrap.Modal(document.getElementById('modalTxnDetail')).show();
+    }
+    function printReceipt(id, type) {
+      let item = null;
+      if (type === 'advance') item = DB.advances.find(x => x.id === id);
+      else if (type === 'loan') item = DB.loans.find(x => x.id === id);
+      else if (type === 'payment') item = (DB.payments || []).find(x => x.id === id);
+      if (!item || !item.receipt) return;
+      const r = item.receipt;
+      const w = window.open('', '_blank');
+      w.document.write('<html><head><title>Receipt</title></head><body style="margin:0;text-align:center;">');
+      if ((r.type || '').includes('pdf') || (r.name || '').toLowerCase().endsWith('.pdf')) {
+        w.document.write('<embed src="' + r.data + '" type="application/pdf" width="100%" height="100%" style="min-height:100vh;">');
+      } else {
+        w.document.write('<img src="' + r.data + '" style="max-width:100%;">');
+      }
+      w.document.write('</body></html>');
+      w.document.close();
+      setTimeout(() => w.print(), 500);
+    }
+    function exportCustomerExcel(id) {
+      const c = DB.customers.find(x => x.id === id); if (!c) return;
+      const advs = DB.advances.filter(a => a.customerId === id);
+      const loans = DB.loans.filter(l => l.customerId === id);
+      let csv = 'Date,Type,Description,Amount,Status,Receipt\n';
+      advs.forEach(a => { csv += `${a.date},Advance,"${(a.desc||'').replace(/"/g,'""')}",${a.amount},${a.status||'active'},"${a.receipt?a.receipt.name:''}"\n`; });
+      loans.forEach(l => { csv += `${l.date},Loan,"${(l.desc||'').replace(/"/g,'""')}",${l.principal},${l.status||'active'},"${l.receipt?l.receipt.name:''}"\n`; });
+      const blob = new Blob([csv], {type: 'text/csv'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (c.name || 'customer') + '-ledger.csv'; a.click();
+    }
+
+    function buildCustomerLedgerHtml(c) {
+      const invs = DB.invoices.filter(i => i.customerId === c.id);
+      const advs = DB.advances.filter(a => a.customerId === c.id);
+      const loans = DB.loans.filter(l => l.customerId === c.id);
+      const invPaid = invs.reduce((s, i) => s + Number(i.paid || 0), 0);
+      const invTotal = invs.reduce((s, i) => s + Number(i.total || 0), 0);
+      const totalAdvance = advs.reduce((s, a) => s + Number(a.amount || 0), 0);
+      const totalLoan = loans.reduce((s, l) => s + Number(l.principal || 0), 0);
+      const totalRepaid = loans.reduce((s, l) => s + Number(l.repaid || 0), 0);
+      if (!DB.payments) DB.payments = [];
+      const pays = DB.payments.filter(p => p.customerId === c.id);
+      const totalPayments = pays.reduce((s, p) => s + Number(p.amount || 0), 0);
+      const totalGiven = totalAdvance + totalLoan;
+      const totalReceived = totalPayments + invPaid + totalRepaid;
+      const outstanding = Math.max(0, totalGiven - totalReceived);
+      const company = DB.settings.company || 'Lanka Seagull Marine Company';
+      const txs = [
+        ...advs.map(a => ({date: a.date, type: 'Advance Given', desc: a.desc || '', amount: a.amount, receipt: a.receipt ? a.receipt.name : '—', status: a.status || 'active'})),
+        ...loans.map(l => ({date: l.date, type: 'Loan Given', desc: l.desc || '', amount: l.principal, receipt: l.receipt ? l.receipt.name : '—', status: l.status || 'active'})),
+        ...pays.map(p => ({date: p.date, type: 'Payment Received', desc: p.desc || '', amount: p.amount, receipt: p.receipt ? p.receipt.name : '—', status: p.status || 'completed'})),
+        ...invs.map(i => ({date: i.date, type: 'Invoice', desc: i.number, amount: i.total, receipt: '—', status: i.status}))
+      ].sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+      const rows = txs.map(t => `<tr>
+        <td>${t.date}</td><td>${t.type}</td><td>${esc(t.desc)}</td>
+        <td style="text-align:right;">${fmt(t.amount)}</td>
+        <td>${esc(t.receipt)}</td><td>${t.status}</td>
+      </tr>`).join('');
+      return `<div class="invoice-print">
+    <div class="h-row">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <img src="${LOGO_DATA_URI}" alt="logo" style="width:56px;height:56px;object-fit:contain;">
+        <div><h2 style="margin:0;">${esc(company)}</h2>
+        <div class="text-muted">${esc(DB.settings.address || '')}</div>
+        <div class="text-muted">${esc(DB.settings.phone || '')}</div></div>
+      </div>
+      <div style="text-align:right;"><h3 style="margin:0;">CUSTOMER STATEMENT</h3>
+        <div>Date: ${todayStr()}</div>
+        <div class="mono">Ref: ${esc(c.id)}</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin:16px 0; padding:12px; border:1px solid #ddd; border-radius:8px;">
+      <div>
+        <strong>Customer Details</strong><br>
+        Name: ${esc(c.name)}<br>
+        Mobile: ${esc(c.mobile || '—')}<br>
+        Email: ${esc(c.email || '—')}<br>
+        NIC/Passport: ${esc(c.passport || '—')}<br>
+        Address: ${esc(c.address || '—')}
+      </div>
+      <div style="text-align:right;">
+        <strong>Summary</strong><br>
+        Total Given: Rs. ${fmt(totalGiven)}<br>
+        Total Received: Rs. ${fmt(totalReceived)}<br>
+        <strong style="color:#c00;">Outstanding Balance: Rs. ${fmt(outstanding)}</strong>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Type</th><th>Description</th><th style="text-align:right;">Amount</th><th>Receipt Ref</th><th>Status</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="6">No transactions.</td></tr>'}</tbody>
+    </table>
+    <div style="margin-top:40px; display:flex; justify-content:space-between;">
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Prepared by</div>
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Authorized Signature</div>
+    </div>
+    <div class="text-muted" style="margin-top:24px; font-size:11px;">This is a computer-generated statement. Receipt files are stored digitally and available on request.</div>
+  </div>`;
+    }
+    function printCustomerLedger(id) {
+      const c = DB.customers.find(x => x.id === id); if (!c) return;
+      printFromHtml(buildCustomerLedgerHtml(c));
+    }
+    function downloadCustomerLedgerPdf(id) {
+      const c = DB.customers.find(x => x.id === id); if (!c) return;
+      const wrap = document.createElement('div');
+      wrap.innerHTML = buildCustomerLedgerHtml(c);
+      html2pdf().from(wrap).set({filename: (c.name || 'customer') + '-statement.pdf', margin: 10, html2canvas: {scale: 2}}).save();
+    }
+
+
     function populateCustomerSelect() {
       const list = document.getElementById('customerNamesList');
       if (!list) return;
       list.innerHTML = DB.customers.map(c => `<option value="${esc(c.name)}">`).join('');
     }
+    /** Load the exact sample from the handwritten ledger photo (NASEEM MAMA) */
+    function loadNaseemMamaExample() {
+      if (!confirm('Add / refresh the sample customer NASEEM MAMA with all 11 advance entries from the ledger photo?')) return;
+      const naseemId = 'cust_naseem_mama';
+      // remove old sample if present
+      DB.customers = DB.customers.filter(c => c.id !== naseemId && c.name.toUpperCase() !== 'NASEEM MAMA');
+      DB.advances = DB.advances.filter(a => a.customerId !== naseemId && a.name.toUpperCase() !== 'NASEEM MAMA');
+      DB.customers.push({
+        id: naseemId, name: 'NASEEM MAMA', passport: '', mobile: '', country: '', visa: '', address: '', created: '2026-08-03'
+      });
+      const rows = [
+        {date:'2026-08-03', person:'SUMRY', amount:20000, reason:'Note Bill'},
+        {date:'2026-08-03', person:'SUMRY', amount:10000, reason:'Note Bill'},
+        {date:'2026-08-05', person:'SIRAIJDEEN', amount:10000, reason:'Advance'},
+        {date:'2026-08-07', person:'HASNIB', amount:30000, reason:'Advance'},
+        {date:'2026-08-09', person:'HANSIB', amount:20000, reason:'Note Bill'},
+        {date:'2026-08-09', person:'NASEEM', amount:25000, reason:'Advance'},
+        {date:'2026-08-09', person:'NASEEM', amount:50000, reason:'Advance'},
+        {date:'2026-08-13', person:'NASEEM', amount:30000, reason:'Advance'},
+        {date:'2026-08-13', person:'NASEEM', amount:50000, reason:'Advance'},
+        {date:'2026-08-14', person:'SUMRY', amount:38500, reason:'Note Bill'},
+        {date:'2026-08-14', person:'SUMRY', amount:34200, reason:'Note Bill'}
+      ];
+      rows.forEach((r, i) => {
+        DB.advances.push({
+          id: 'adv_naseem_' + (i+1),
+          customerId: naseemId,
+          name: 'NASEEM MAMA',
+          amount: r.amount,
+          desc: 'Bank Receipt — ' + r.person + (r.reason ? ' (' + r.reason + ')' : ''),
+          date: r.date,
+          receipt: null,
+          status: 'active',
+          reason: r.reason
+        });
+      });
+      saveDB();
+      refreshAll();
+      viewCustomer(naseemId);
+      showToast('NASEEM MAMA ledger loaded (11 advances). Click the name to see the full statement.');
+      go('customers');
+    }
 
     /* ============================================================ INVOICES */
     let invItems = [{desc: '', qty: 1, price: 0}];
+    function loadSahimExample() {
+      if (!confirm('Add / refresh sample customer SAHIM with example ledger (Total Given 1,500,000 / Received 750,000 / Outstanding 750,000)?')) return;
+      const cid = 'cust_sahim';
+      DB.customers = DB.customers.filter(c => c.id !== cid && c.name.toUpperCase() !== 'SAHIM');
+      DB.advances = DB.advances.filter(a => a.customerId !== cid);
+      DB.loans = DB.loans.filter(l => l.customerId !== cid);
+      if (!DB.payments) DB.payments = [];
+      DB.payments = DB.payments.filter(p => p.customerId !== cid);
+      DB.customers.push({
+        id: cid, name: 'SAHIM', passport: '', mobile: '0771234567', email: '', country: '', visa: '', address: '', notes: 'Sample customer for outstanding balance demo', created: '2026-08-01'
+      });
+      // Advances Given (Total Given = 1,500,000)
+      const given = [
+        {date:'2026-08-01', amount:500000, desc:'Advance Given'},
+        {date:'2026-08-05', amount:300000, desc:'Advance Given'},
+        {date:'2026-08-10', amount:700000, desc:'Advance Given'}
+      ];
+      given.forEach((r, i) => {
+        DB.advances.push({
+          id: 'adv_sahim_' + (i+1), customerId: cid, name: 'SAHIM',
+          amount: r.amount, desc: r.desc, date: r.date, receipt: null, status: 'active', reason: 'Advance'
+        });
+      });
+      // Payment Received (Total Received = 500,000)
+      DB.payments.push({
+        id: 'pay_sahim_1', customerId: cid, name: 'SAHIM',
+        amount: 500000, desc: 'Payment Received', date: '2026-08-12', method: 'Bank Transfer', reference: 'TRX-500K', receipt: null, status: 'completed'
+      });
+      DB.payments.push({
+        id: 'pay_sahim_2', customerId: cid, name: 'SAHIM',
+        amount: 250000, desc: 'Payment Received', date: '2026-08-14', method: 'Cash', reference: '', receipt: null, status: 'completed'
+      });
+      saveDB();
+      refreshAll();
+      viewCustomer(cid);
+      showToast('SAHIM ledger loaded. Outstanding = 750,000 LKR');
+      go('customers');
+    }
+
     function addInvoiceItem() {invItems.push({desc: '', qty: 1, price: 0}); renderInvoiceItems();}
     function removeInvoiceItem(i) {invItems.splice(i, 1); if (!invItems.length) invItems = [{desc: '', qty: 1, price: 0}]; renderInvoiceItems();}
     function renderInvoiceItems() {
@@ -2343,53 +2756,147 @@
       });
     }
 
-    /* ============================================================ ADVANCE & LOAN */
-    function addAdvance() {
-      const name = document.getElementById('adv-name').value.trim();
-      const amount = parseFloat(document.getElementById('adv-amount').value) || 0;
-      if (!name || amount <= 0) {alert('Enter a name and amount.'); return;}
-      DB.advances.push({id: uid(), name, amount, date: document.getElementById('adv-date').value || todayStr()});
-      saveDB();
-      document.getElementById('adv-name').value = ''; document.getElementById('adv-amount').value = '';
-      renderAdvances();
+    /* ============================================================ ADVANCE & LOAN + RECEIPTS */
+    async function fileToReceipt(fileInput) {
+      const file = fileInput && fileInput.files && fileInput.files[0];
+      if (!file) return null;
+      if (file.size > 2.5 * 1024 * 1024) { alert('Receipt file is too large (max ~2.5 MB for local storage).'); return null; }
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({ name: file.name, type: file.type || 'application/octet-stream', data: reader.result });
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(file);
+      });
     }
+    function populateAdvLoanCustomerSelects() {
+      const opts = '<option value="">— Select customer —</option>' + DB.customers.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+      const a = document.getElementById('adv-customer');
+      const l = document.getElementById('loan-customer');
+      const p = document.getElementById('pay-customer');
+      if (a) a.innerHTML = opts;
+      if (l) l.innerHTML = opts;
+      if (p) p.innerHTML = opts;
+    }
+    async function addAdvance() {
+      const custId = document.getElementById('adv-customer').value;
+      const amount = parseFloat(document.getElementById('adv-amount').value) || 0;
+      const desc = document.getElementById('adv-desc').value.trim();
+      if (!custId) { alert('Please select a customer.'); return; }
+      if (amount <= 0) { alert('Enter a valid amount.'); return; }
+      const cust = DB.customers.find(c => c.id === custId);
+      const receipt = await fileToReceipt(document.getElementById('adv-receipt'));
+      const dateVal = document.getElementById('adv-date').value || todayStr();
+
+      if (typeof editingAdvanceId !== 'undefined' && editingAdvanceId) {
+        const existing = DB.advances.find(x => x.id === editingAdvanceId);
+        if (existing) {
+          existing.customerId = custId;
+          existing.name = cust ? cust.name : existing.name;
+          existing.amount = amount;
+          existing.desc = desc;
+          existing.date = dateVal;
+          if (receipt) existing.receipt = receipt;
+          saveDB();
+          showToast('Advance updated.');
+        }
+        editingAdvanceId = null;
+        const btn = document.querySelector('button[onclick="addAdvance()"]');
+        if (btn) { btn.innerHTML = '<i class="bi bi-save"></i> Save Advance'; btn.classList.remove('btn-warning'); }
+      } else {
+        DB.advances.push({
+          id: uid(), customerId: custId, name: cust ? cust.name : '', amount, desc,
+          date: dateVal, receipt, status: 'active'
+        });
+        saveDB();
+        showToast('Advance recorded for ' + (cust ? cust.name : '') + '.');
+      }
+      document.getElementById('adv-amount').value = '';
+      document.getElementById('adv-desc').value = '';
+      document.getElementById('adv-receipt').value = '';
+      renderAdvances(); refreshDashboard();
+    }
+
+    let editingAdvanceId = null;
     function editAdvance(id) {
       const a = DB.advances.find(x => x.id === id); if (!a) return;
-      const name = prompt('Person name', a.name); if (name === null) return;
-      const amountStr = prompt('Amount (Rs.)', a.amount); if (amountStr === null) return;
-      const amount = parseFloat(amountStr) || 0;
-      if (!name.trim() || amount <= 0) {alert('Enter a valid name and amount.'); return;}
-      a.name = name.trim(); a.amount = amount;
-      saveDB(); renderAdvances(); showToast('Advance updated.');
+      editingAdvanceId = id;
+      // Fill the form
+      const sel = document.getElementById('adv-customer');
+      if (sel) sel.value = a.customerId || '';
+      document.getElementById('adv-desc').value = a.desc || '';
+      document.getElementById('adv-amount').value = a.amount || '';
+      document.getElementById('adv-date').value = a.date || '';
+      // Scroll to form and highlight
+      const formCard = document.getElementById('adv-customer');
+      if (formCard) formCard.scrollIntoView({behavior: 'smooth', block: 'center'});
+      showToast('Editing advance — change values and click Save Advance to update.');
+      // Change button text temporarily
+      const btn = document.querySelector('button[onclick="addAdvance()"]');
+      if (btn) { btn.innerHTML = '<i class="bi bi-check2"></i> Update Advance'; btn.classList.add('btn-warning'); }
     }
+    function cancelEditAdvance() {
+      editingAdvanceId = null;
+      document.getElementById('adv-desc').value = '';
+      document.getElementById('adv-amount').value = '';
+      document.getElementById('adv-receipt').value = '';
+      const btn = document.querySelector('button[onclick="addAdvance()"]');
+      if (btn) { btn.innerHTML = '<i class="bi bi-save"></i> Save Advance'; btn.classList.remove('btn-warning'); }
+    }
+
     function deleteAdvance(id) {
       const a = DB.advances.find(x => x.id === id); if (!a) return;
       if (!confirm('Delete this advance entry for "' + a.name + '"?')) return;
       DB.advances = DB.advances.filter(x => x.id !== id);
-      saveDB();
-      showToast('Advance deleted.');
-      renderAdvances();
+      saveDB(); showToast('Advance deleted.'); renderAdvances(); refreshDashboard();
     }
     function buildAdvancesHtml() {
       const company = DB.settings.company || 'Lanka Seagull Marine Company';
-      const rows = DB.advances.map(a => `<tr><td>${a.date}</td><td>${esc(a.name)}</td><td style="text-align:right;">${fmt(a.amount)}</td></tr>`).join('');
-      const total = DB.advances.reduce((s, a) => s + Number(a.amount || 0), 0);
+      const list = DB.advances.slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+      const rows = list.map(a => `<tr>
+        <td>${a.date}</td>
+        <td>${esc(a.name)}</td>
+        <td>${esc(a.desc || '—')}</td>
+        <td style="text-align:right;">Rs. ${fmt(a.amount)}</td>
+        <td>${a.receipt ? esc(a.receipt.name) : '—'}</td>
+      </tr>`).join('');
+      const total = list.reduce((s, a) => s + Number(a.amount || 0), 0);
       return `<div class="invoice-print">
-    <div class="h-row"><div style="display:flex; align-items:center; gap:14px;"><img src="${LOGO_DATA_URI}" alt="logo" style="width:52px;height:52px;object-fit:contain;"><h2 style="margin:0;">${esc(company)}</h2></div>
-      <div style="text-align:right;"><h3 style="margin:0;">ADVANCE HISTORY</h3><div>Date: ${todayStr()}</div></div></div>
-    <table><thead><tr><th>Date</th><th>Name</th><th style="text-align:right;">Amount</th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="3">No advances recorded.</td></tr>'}</tbody></table>
-    <div style="display:flex; justify-content:flex-end;"><table style="width:280px;"><tr><td><strong>Total</strong></td><td style="text-align:right;"><strong>${fmt(total)}</strong></td></tr></table></div>
+    <div class="h-row">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <img src="${LOGO_DATA_URI}" alt="logo" style="width:56px;height:56px;object-fit:contain;">
+        <div><h2 style="margin:0;">${esc(company)}</h2>
+        <div class="text-muted">${esc(DB.settings.address || '')}</div>
+        <div class="text-muted">${esc(DB.settings.phone || '')}</div></div>
+      </div>
+      <div style="text-align:right;">
+        <h3 style="margin:0;">ADVANCE HISTORY</h3>
+        <div>Printed: ${todayStr()}</div>
+        <div>Total records: ${list.length}</div>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Customer</th><th>Description</th><th style="text-align:right;">Amount</th><th>Receipt</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="5">No advances recorded.</td></tr>'}</tbody>
+    </table>
+    <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+      <table style="width:280px;">
+        <tr><td><strong>Total Advances Given</strong></td><td style="text-align:right;"><strong>Rs. ${fmt(total)}</strong></td></tr>
+      </table>
+    </div>
+    <div style="margin-top:40px; display:flex; justify-content:space-between;">
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Prepared by</div>
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Authorized Signature</div>
+    </div>
   </div>`;
     }
     function buildLoansHtml() {
       const company = DB.settings.company || 'Lanka Seagull Marine Company';
-      const rows = DB.loans.map(l => `<tr><td>${l.date}</td><td>${esc(l.name)}</td><td style="text-align:right;">${fmt(l.principal)}</td><td style="text-align:right;">${fmt(l.repaid)}</td><td style="text-align:right;">${fmt(l.principal - l.repaid)}</td></tr>`).join('');
+      const rows = DB.loans.map(l => `<tr><td>${l.date}</td><td>${esc(l.name)}</td><td>${esc(l.desc || '—')}</td><td style="text-align:right;">${fmt(l.principal)}</td><td style="text-align:right;">${fmt(l.repaid)}</td><td style="text-align:right;">${fmt(l.principal - l.repaid)}</td><td>${l.receipt ? esc(l.receipt.name) : '—'}</td></tr>`).join('');
       return `<div class="invoice-print">
     <div class="h-row"><div style="display:flex; align-items:center; gap:14px;"><img src="${LOGO_DATA_URI}" alt="logo" style="width:52px;height:52px;object-fit:contain;"><h2 style="margin:0;">${esc(company)}</h2></div>
-      <div style="text-align:right;"><h3 style="margin:0;">LOANS &amp; REPAYMENTS</h3><div>Date: ${todayStr()}</div></div></div>
-    <table><thead><tr><th>Date</th><th>Name</th><th style="text-align:right;">Principal</th><th style="text-align:right;">Repaid</th><th style="text-align:right;">Balance</th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="5">No loans recorded.</td></tr>'}</tbody></table>
+      <div style="text-align:right;"><h3 style="margin:0;">LOAN REPORT</h3><div>Date: ${todayStr()}</div></div></div>
+    <table><thead><tr><th>Date</th><th>Customer</th><th>Description</th><th style="text-align:right;">Principal</th><th style="text-align:right;">Repaid</th><th style="text-align:right;">Balance</th><th>Receipt</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="7">No loans recorded.</td></tr>'}</tbody></table>
   </div>`;
     }
     function printFromHtml(html) {
@@ -2405,65 +2912,283 @@
     function printLoans() {printFromHtml(buildLoansHtml());}
     function downloadAdvancesPdf() {
       const wrap = document.createElement('div'); wrap.innerHTML = buildAdvancesHtml();
-      html2pdf().from(wrap).set({filename: 'advance-history.pdf', margin: 10}).save();
+      html2pdf().from(wrap).set({filename: 'advance-report.pdf', margin: 10}).save();
     }
     function downloadLoansPdf() {
       const wrap = document.createElement('div'); wrap.innerHTML = buildLoansHtml();
-      html2pdf().from(wrap).set({filename: 'loans-repayments.pdf', margin: 10}).save();
+      html2pdf().from(wrap).set({filename: 'loan-report.pdf', margin: 10}).save();
     }
     function renderAdvances() {
       const list = DB.advances.slice().reverse();
       document.getElementById('advanceEmpty').style.display = list.length ? 'none' : 'block';
-      document.getElementById('advanceBody').innerHTML = list.map(a => `<tr><td>${a.date}</td><td>${esc(a.name)}</td><td class="text-end mono">${fmt(a.amount)}</td>
-    <td>
-      <button class="btn btn-sm btn-outline-x" onclick="editAdvance('${a.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
-      <button class="btn btn-sm btn-outline-x" onclick="deleteAdvance('${a.id}')" title="Delete"><i class="bi bi-trash"></i></button>
-    </td></tr>`).join('');
+      document.getElementById('advanceBody').innerHTML = list.map(a => `<tr>
+        <td>${a.date}</td>
+        <td><a href="#" onclick="viewCustomer('${a.customerId || ''}'); return false;">${esc(a.name)}</a></td>
+        <td>${esc(a.desc || '—')}</td>
+        <td class="text-end mono">${fmt(a.amount)}</td>
+        <td>${a.receipt ? `<button class="btn btn-sm btn-outline-x" onclick="openReceipt('${a.id}','advance')" title="View receipt"><i class="bi bi-paperclip"></i></button>` : '—'}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-x" onclick="editAdvance('${a.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-outline-x" onclick="deleteAdvance('${a.id}')" title="Delete"><i class="bi bi-trash"></i></button>
+        </td></tr>`).join('');
     }
-    function addLoan() {
-      const name = document.getElementById('loan-name').value.trim();
+    async function addLoan() {
+      const custId = document.getElementById('loan-customer').value;
       const amount = parseFloat(document.getElementById('loan-amount').value) || 0;
-      if (!name || amount <= 0) {alert('Enter a name and principal amount.'); return;}
-      DB.loans.push({id: uid(), name, principal: amount, date: document.getElementById('loan-date').value || todayStr(), repaid: 0});
+      const desc = document.getElementById('loan-desc').value.trim();
+      if (!custId) { alert('Please select a customer.'); return; }
+      if (amount <= 0) { alert('Enter a valid principal amount.'); return; }
+      const cust = DB.customers.find(c => c.id === custId);
+      const receipt = await fileToReceipt(document.getElementById('loan-receipt'));
+      DB.loans.push({
+        id: uid(), customerId: custId, name: cust ? cust.name : '', principal: amount, repaid: 0, desc,
+        date: document.getElementById('loan-date').value || todayStr(), receipt, status: 'active'
+      });
       saveDB();
-      document.getElementById('loan-name').value = ''; document.getElementById('loan-amount').value = '';
-      renderLoans();
-    }
-    function editLoan(id) {
-      const l = DB.loans.find(x => x.id === id); if (!l) return;
-      const name = prompt('Person name', l.name); if (name === null) return;
-      const principalStr = prompt('Principal (Rs.)', l.principal); if (principalStr === null) return;
-      const principal = parseFloat(principalStr) || 0;
-      if (!name.trim() || principal <= 0) {alert('Enter a valid name and principal.'); return;}
-      l.name = name.trim(); l.principal = principal;
-      saveDB(); renderLoans(); showToast('Loan updated.');
+      document.getElementById('loan-amount').value = '';
+      document.getElementById('loan-desc').value = '';
+      document.getElementById('loan-receipt').value = '';
+      renderLoans(); refreshDashboard();
+      showToast('Loan recorded for ' + (cust ? cust.name : '') + '.');
     }
     function deleteLoan(id) {
       const l = DB.loans.find(x => x.id === id); if (!l) return;
       if (!confirm('Delete this loan for "' + l.name + '"?')) return;
       DB.loans = DB.loans.filter(x => x.id !== id);
-      saveDB();
-      showToast('Loan deleted.');
-      renderLoans();
+      saveDB(); showToast('Loan deleted.'); renderLoans(); refreshDashboard();
     }
     function repayLoan(id) {
       const loan = DB.loans.find(l => l.id === id); if (!loan) return;
       const amt = parseFloat(prompt('Repayment amount (Rs.)', '0')) || 0;
       if (amt <= 0) return;
       loan.repaid = (loan.repaid || 0) + amt;
-      saveDB(); renderLoans();
+      if (loan.repaid >= loan.principal) loan.status = 'closed';
+      saveDB(); renderLoans(); refreshDashboard();
     }
     function renderLoans() {
       const list = DB.loans.slice().reverse();
       document.getElementById('loanEmpty').style.display = list.length ? 'none' : 'block';
       document.getElementById('loanBody').innerHTML = list.map(l => `
-    <tr><td>${l.date}</td><td>${esc(l.name)}</td><td class="text-end mono">${fmt(l.principal)}</td>
-    <td class="text-end mono">${fmt(l.repaid)}</td><td class="text-end mono" style="color:${(l.principal - l.repaid) > 0 ? 'var(--danger)' : 'var(--ok)'}">${fmt(l.principal - l.repaid)}</td>
-    <td>
-      <button class="btn btn-sm btn-outline-x" onclick="repayLoan('${l.id}')" title="Repay">Repay</button>
-      <button class="btn btn-sm btn-outline-x" onclick="editLoan('${l.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
-      <button class="btn btn-sm btn-outline-x" onclick="deleteLoan('${l.id}')" title="Delete"><i class="bi bi-trash"></i></button>
-    </td></tr>`).join('');
+    <tr>
+      <td>${l.date}</td>
+      <td><a href="#" onclick="viewCustomer('${l.customerId || ''}'); return false;">${esc(l.name)}</a></td>
+      <td class="text-end mono">${fmt(l.principal)}</td>
+      <td class="text-end mono">${fmt(l.repaid)}</td>
+      <td class="text-end mono" style="color:${(l.principal - l.repaid) > 0 ? 'var(--danger)' : 'var(--ok)'}">${fmt(l.principal - l.repaid)}</td>
+      <td>${l.receipt ? `<button class="btn btn-sm btn-outline-x" onclick="openReceipt('${l.id}','loan')" title="View receipt"><i class="bi bi-paperclip"></i></button>` : '—'}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-x" onclick="repayLoan('${l.id}')" title="Repay">Repay</button>
+        <button class="btn btn-sm btn-outline-x" onclick="deleteLoan('${l.id}')" title="Delete"><i class="bi bi-trash"></i></button>
+      </td></tr>`).join('');
+    }
+
+    /* Receipt viewer */
+    function openReceipt(id, type) {
+      let item = null;
+      if (type === 'advance') item = DB.advances.find(x => x.id === id);
+      else if (type === 'loan') item = DB.loans.find(x => x.id === id);
+      else if (type === 'payment') item = (DB.payments || []).find(x => x.id === id);
+      if (!item || !item.receipt) { alert('No receipt attached.'); return; }
+      const r = item.receipt;
+      const isPdf = (r.type || '').includes('pdf') || (r.name || '').toLowerCase().endsWith('.pdf');
+      const isImg = (r.type || '').startsWith('image/') || /\.(jpe?g|png|gif|webp)$/i.test(r.name || '');
+      let body = '';
+      if (isPdf) {
+        body = `<div class="mb-2 d-flex gap-2">
+          <a class="btn btn-sm btn-brand" href="${r.data}" download="${esc(r.name)}"><i class="bi bi-download"></i> Download</a>
+          <button class="btn btn-sm btn-outline-x" onclick="document.getElementById('receiptFrame').style.transform='scale(1.25)'"><i class="bi bi-zoom-in"></i></button>
+          <button class="btn btn-sm btn-outline-x" onclick="document.getElementById('receiptFrame').style.transform='scale(1)'"><i class="bi bi-zoom-out"></i></button>
+        </div>
+        <div style="height:70vh;overflow:auto;background:#525659;"><embed id="receiptFrame" src="${r.data}" type="application/pdf" style="width:100%;height:100%;transform-origin:top left;"></div>`;
+      } else if (isImg) {
+        body = `<div class="mb-2"><a class="btn btn-sm btn-brand" href="${r.data}" download="${esc(r.name)}"><i class="bi bi-download"></i> Download</a></div>
+        <div style="text-align:center;"><img src="${r.data}" style="max-width:100%;max-height:70vh;cursor:zoom-in;" onclick="this.style.transform=this.style.transform?'':'scale(1.5)';this.style.transition='transform .2s';"></div>`;
+      } else {
+        body = `<p>Unsupported file type. <a href="${r.data}" download="${esc(r.name)}">Download ${esc(r.name)}</a></p>`;
+      }
+      const modal = document.getElementById('modalReceipt');
+      document.getElementById('receiptModalTitle').textContent = 'Receipt — ' + (r.name || 'file');
+      document.getElementById('receiptModalBody').innerHTML = body;
+      new bootstrap.Modal(modal).show();
+    }
+
+    let editingPaymentId = null;
+    async function addPayment(andPrint) {
+      const custId = document.getElementById('pay-customer').value;
+      const amount = parseFloat(document.getElementById('pay-amount').value) || 0;
+      const desc = document.getElementById('pay-desc').value.trim() || 'Payment Received';
+      const method = document.getElementById('pay-method') ? document.getElementById('pay-method').value : 'Cash';
+      const ref = document.getElementById('pay-ref') ? document.getElementById('pay-ref').value.trim() : '';
+      if (!custId) { alert('Please select a customer.'); return; }
+      if (amount <= 0) { alert('Enter a valid amount.'); return; }
+      const cust = DB.customers.find(c => c.id === custId);
+      if (!DB.payments) DB.payments = [];
+      const receipt = await fileToReceipt(document.getElementById('pay-receipt'));
+      const dateVal = document.getElementById('pay-date').value || todayStr();
+      let savedId = null;
+
+      if (editingPaymentId) {
+        const existing = DB.payments.find(x => x.id === editingPaymentId);
+        if (existing) {
+          existing.customerId = custId;
+          existing.name = cust ? cust.name : existing.name;
+          existing.amount = amount;
+          existing.desc = desc;
+          existing.date = dateVal;
+          existing.method = method;
+          existing.reference = ref;
+          if (receipt) existing.receipt = receipt;
+          savedId = existing.id;
+          saveDB();
+          showToast('Payment updated for ' + (cust ? cust.name : '') + '.');
+        }
+        editingPaymentId = null;
+        const btn = document.querySelector('button[onclick="addPayment()"]');
+        if (btn) { btn.innerHTML = '<i class="bi bi-cash-coin"></i> Save Payment'; btn.classList.remove('btn-warning'); }
+      } else {
+        const newPay = {
+          id: uid(), customerId: custId, name: cust ? cust.name : '', amount, desc,
+          date: dateVal, method, reference: ref, receipt, status: 'completed'
+        };
+        DB.payments.push(newPay);
+        savedId = newPay.id;
+        saveDB();
+        // Show balance update toast
+        const given = (DB.advances.filter(a => a.customerId === custId).reduce((s,a) => s + Number(a.amount||0), 0))
+          + (DB.loans.filter(l => l.customerId === custId).reduce((s,l) => s + Number(l.principal||0), 0));
+        const received = DB.payments.filter(p => p.customerId === custId).reduce((s,p) => s + Number(p.amount||0), 0);
+        const bal = Math.max(0, given - received);
+        showToast('Payment Rs. ' + fmt(amount) + ' recorded. New outstanding: Rs. ' + fmt(bal));
+      }
+      document.getElementById('pay-amount').value = '';
+      document.getElementById('pay-desc').value = '';
+      document.getElementById('pay-receipt').value = '';
+      if (document.getElementById('pay-ref')) document.getElementById('pay-ref').value = '';
+      renderPayments(); refreshDashboard();
+      if (custId) viewCustomer(custId);
+      if (andPrint && savedId) {
+        setTimeout(() => printPaymentReceipt(savedId), 300);
+      }
+    }
+    function editPayment(id) {
+      if (!DB.payments) return;
+      const p = DB.payments.find(x => x.id === id); if (!p) return;
+      editingPaymentId = id;
+      const sel = document.getElementById('pay-customer');
+      if (sel) sel.value = p.customerId || '';
+      document.getElementById('pay-desc').value = p.desc || '';
+      document.getElementById('pay-amount').value = p.amount || '';
+      document.getElementById('pay-date').value = p.date || '';
+      if (document.getElementById('pay-method')) document.getElementById('pay-method').value = p.method || 'Cash';
+      if (document.getElementById('pay-ref')) document.getElementById('pay-ref').value = p.reference || '';
+      const formEl = document.getElementById('pay-customer');
+      if (formEl) formEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+      showToast('Editing payment — update fields and click Save.');
+      const btn = document.querySelector('button[onclick="addPayment()"]');
+      if (btn) { btn.innerHTML = '<i class="bi bi-check2"></i> Update Payment'; btn.classList.add('btn-warning'); }
+    }
+    function deletePayment(id) {
+      if (!DB.payments) return;
+      const p = DB.payments.find(x => x.id === id); if (!p) return;
+      if (!confirm('Delete this payment for "' + p.name + '"?')) return;
+      DB.payments = DB.payments.filter(x => x.id !== id);
+      saveDB(); showToast('Payment deleted.'); renderPayments(); refreshDashboard();
+      if (p.customerId) viewCustomer(p.customerId);
+    }
+    function renderPayments() {
+      if (!DB.payments) DB.payments = [];
+      const list = DB.payments.slice().reverse();
+      const empty = document.getElementById('paymentEmpty');
+      const body = document.getElementById('paymentBody');
+      if (!body) return;
+      if (empty) empty.style.display = list.length ? 'none' : 'block';
+      body.innerHTML = list.map(p => `<tr>
+        <td>${p.date}</td>
+        <td><a href="#" onclick="viewCustomer('${p.customerId || ''}'); return false;">${esc(p.name)}</a></td>
+        <td>${esc(p.desc || '—')}${p.method ? ' <span class="text-muted small">(' + esc(p.method) + ')</span>' : ''}</td>
+        <td class="text-end mono" style="color:var(--ok)">Rs. ${fmt(p.amount)}</td>
+        <td>${p.receipt ? `<button class="btn btn-sm btn-outline-x" onclick="openReceipt('${p.id}','payment')" title="View receipt"><i class="bi bi-paperclip"></i></button>` : '—'}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-x" onclick="editPayment('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-outline-x" onclick="openTransactionDetail('${p.id}','payment')" title="Details"><i class="bi bi-eye"></i></button>
+          <button class="btn btn-sm btn-outline-x" onclick="deletePayment('${p.id}')" title="Delete"><i class="bi bi-trash"></i></button>
+        </td>
+      </tr>`).join('');
+    }
+    function buildPaymentsHtml() {
+      const company = DB.settings.company || 'Lanka Seagull Marine Company';
+      if (!DB.payments) DB.payments = [];
+      const list = DB.payments.slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+      const rows = list.map(p => `<tr>
+        <td>${p.date}</td>
+        <td>${esc(p.name)}</td>
+        <td>${esc(p.desc || '—')}</td>
+        <td>${esc(p.method || '—')}</td>
+        <td>${esc(p.reference || '—')}</td>
+        <td style="text-align:right;">Rs. ${fmt(p.amount)}</td>
+        <td>${p.receipt ? esc(p.receipt.name) : '—'}</td>
+      </tr>`).join('');
+      const total = list.reduce((s, p) => s + Number(p.amount || 0), 0);
+      return `<div class="invoice-print">
+    <div class="h-row">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <img src="${LOGO_DATA_URI}" alt="logo" style="width:56px;height:56px;object-fit:contain;">
+        <div><h2 style="margin:0;">${esc(company)}</h2>
+        <div class="text-muted">${esc(DB.settings.address || '')}</div></div>
+      </div>
+      <div style="text-align:right;">
+        <h3 style="margin:0;">PAYMENT COLLECTION REPORT</h3>
+        <div>Printed: ${todayStr()}</div>
+        <div>Records: ${list.length}</div>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>Date</th><th>Customer</th><th>Description</th><th>Method</th><th>Reference</th><th style="text-align:right;">Amount</th><th>Receipt</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="7">No payments recorded.</td></tr>'}</tbody>
+    </table>
+    <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+      <table style="width:300px;">
+        <tr><td><strong>Total Payments Received</strong></td><td style="text-align:right;"><strong>Rs. ${fmt(total)}</strong></td></tr>
+      </table>
+    </div>
+    <div style="margin-top:40px; display:flex; justify-content:space-between;">
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Prepared by</div>
+      <div style="width:45%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Authorized Signature</div>
+    </div>
+  </div>`;
+    }
+    function printPayments() { printFromHtml(buildPaymentsHtml()); }
+    function downloadPaymentsPdf() {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = buildPaymentsHtml();
+      html2pdf().from(wrap).set({filename: 'payment-collection-report.pdf', margin: 10, html2canvas: {scale: 2}}).save();
+    }
+    function printPaymentReceipt(id) {
+      if (!DB.payments) return;
+      const p = DB.payments.find(x => x.id === id); if (!p) return;
+      const company = DB.settings.company || 'Lanka Seagull Marine Company';
+      const html = `<div class="invoice-print">
+    <div style="text-align:center; margin-bottom:16px;">
+      <img src="${LOGO_DATA_URI}" style="width:48px;height:48px;object-fit:contain;"><br>
+      <h2 style="margin:4px 0;">${esc(company)}</h2>
+      <div class="text-muted">${esc(DB.settings.address || '')}</div>
+      <h3 style="margin-top:12px;">PAYMENT RECEIPT</h3>
+    </div>
+    <table style="width:100%; margin-bottom:12px;">
+      <tr><td><strong>Receipt No:</strong></td><td class="mono">${esc(p.id)}</td></tr>
+      <tr><td><strong>Customer:</strong></td><td>${esc(p.name)}</td></tr>
+      <tr><td><strong>Date:</strong></td><td>${esc(p.date)}</td></tr>
+      <tr><td><strong>Amount:</strong></td><td class="mono"><strong>Rs. ${fmt(p.amount)}</strong></td></tr>
+      <tr><td><strong>Method:</strong></td><td>${esc(p.method || 'Cash')}</td></tr>
+      <tr><td><strong>Reference:</strong></td><td>${esc(p.reference || '—')}</td></tr>
+      <tr><td><strong>Notes:</strong></td><td>${esc(p.desc || '—')}</td></tr>
+    </table>
+    <div style="margin-top:40px; display:flex; justify-content:space-between;">
+      <div style="width:40%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Received by</div>
+      <div style="width:40%; border-top:1px solid #333; padding-top:6px; text-align:center; font-size:12px;">Customer Signature</div>
+    </div>
+  </div>`;
+      printFromHtml(html);
     }
 
     /* ============================================================ SETTINGS */
@@ -2502,7 +3227,13 @@
       document.getElementById('stat-income').textContent = 'Rs. ' + fmt(income);
       document.getElementById('stat-expense').textContent = 'Rs. ' + fmt(expense);
       document.getElementById('stat-profit').textContent = 'Rs. ' + fmt(income - expense);
-      document.getElementById('stat-outstanding').textContent = 'Rs. ' + fmt(DB.invoices.reduce((s, i) => s + Math.max(0, Number(i.balance || 0)), 0));
+      const invOut = DB.invoices.reduce((s, i) => s + Math.max(0, Number(i.balance || 0)), 0);
+      const loanOut = DB.loans.reduce((s, l) => s + Math.max(0, Number(l.principal || 0) - Number(l.repaid || 0)), 0);
+      const advTotal = DB.advances.reduce((s, a) => s + Number(a.amount || 0), 0);
+      document.getElementById('stat-outstanding').textContent = 'Rs. ' + fmt(invOut + loanOut);
+      // optional: expose advance total if element exists
+      const elAdv = document.getElementById('stat-advance');
+      if (elAdv) elAdv.textContent = 'Rs. ' + fmt(advTotal);
       document.getElementById('stat-lowstock').textContent = DB.stock.filter(s => s.qty <= s.reorder).length;
       document.getElementById('todayDate').textContent = new Date().toLocaleDateString(undefined, {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'});
 
@@ -2588,11 +3319,13 @@
     });
 
     function refreshAll() {
-      populateCustomerSelect(); populateStockSelect();
+      populateCustomerSelect(); populateStockSelect(); populateAdvLoanCustomerSelects();
       renderCustomers(); renderStock(); renderMovements(); renderExpenses(); renderAdvances(); renderLoans();
       renderInvoiceList(); refreshInvoiceNumber(); refreshDashboard();
       populateAccessSettings();
       document.getElementById('inv-date').value = document.getElementById('inv-date').value || todayStr();
+      if (document.getElementById('adv-date') && !document.getElementById('adv-date').value) document.getElementById('adv-date').value = todayStr();
+      if (document.getElementById('loan-date') && !document.getElementById('loan-date').value) document.getElementById('loan-date').value = todayStr();
     }
 
     /* ---------------- init ---------------- */
