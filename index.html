@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lanka Seagull (Pvt) Ltd — Business Manager</title>
+<link rel="icon" type="image/png" href="logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <img class="app-logo" src="logo.png" alt="Lanka Seagull Marine Company">
+    </div>
+    <h2>Sign in</h2>
+    <p class="muted">Enter your credentials to access the dashboard.</p>
+    <form id="loginForm" autocomplete="on">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="loginUsername" autocomplete="username" placeholder="Username" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="password-wrap">
+          <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••" required>
+          <button type="button" class="pw-toggle" id="togglePassword" aria-label="Show password"><i data-ic="eye"></i></button>
+        </div>
+      </div>
+      <div class="login-row">
+        <label class="checkbox-label"><input type="checkbox" id="loginRemember" checked> Remember me</label>
+      </div>
+      <p class="login-error" id="loginError" hidden></p>
+      <button type="submit" class="btn btn-primary btn-block" id="loginSubmit"><i data-ic="check"></i>Sign In</button>
+    </form>
+    <p class="login-footnote">Login is stored on this device only, for local access control — not for securing sensitive data.</p>
+  </div>
+</div>
+
+<div id="appShell">
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo"><img class="app-logo" src="logo.png" alt="Lanka Seagull Marine Company"></div>
+    <span class="brand-sub">Business Manager</span>
+  </div>
+
+  <nav class="nav" id="navList">
+    <button class="nav-item active" data-page="dashboard"><i data-ic="grid"></i><span>Dashboard</span></button>
+
+    <div class="nav-group-label">Parties</div>
+    <button class="nav-item" data-page="customers"><i data-ic="users"></i><span>Customers</span></button>
+    <button class="nav-item" data-page="suppliers"><i data-ic="truck"></i><span>Suppliers</span></button>
+
+    <div class="nav-group-label">Inventory</div>
+    <button class="nav-item" data-page="products"><i data-ic="box"></i><span>Products</span></button>
+    <button class="nav-item" data-page="stock"><i data-ic="layers"></i><span>Stock Management</span></button>
+
+    <div class="nav-group-label">Sales &amp; Purchases</div>
+    <button class="nav-item" data-page="cash-sales"><i data-ic="zap"></i><span>Cash Sales</span></button>
+    <button class="nav-item" data-page="sales-invoices"><i data-ic="file-text"></i><span>Sales Invoices</span></button>
+    <button class="nav-item" data-page="purchases"><i data-ic="shopping-cart"></i><span>Purchases</span></button>
+    <button class="nav-item" data-page="payment-receipts"><i data-ic="receipt"></i><span>Payment Receipts</span></button>
+
+    <div class="nav-group-label">Finance</div>
+    <button class="nav-item" data-page="cash-book"><i data-ic="book"></i><span>Cash Book</span></button>
+    <button class="nav-item" data-page="bank-payments"><i data-ic="bank"></i><span>Bank &amp; Payments</span></button>
+    <button class="nav-item" data-page="daily-expenses"><i data-ic="wallet"></i><span>Daily Expenses</span></button>
+
+    <div class="nav-group-label">Insights</div>
+    <button class="nav-item" data-page="daily-report"><i data-ic="calendar"></i><span>Daily Business Report</span></button>
+    <button class="nav-item" data-page="reports-center"><i data-ic="chart"></i><span>Reports Center</span></button>
+
+    <div class="nav-group-label">System</div>
+    <button class="nav-item" data-page="settings"><i data-ic="settings"></i><span>Settings</span></button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <span>v1.0 · Local Data</span>
+  </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===================== MAIN ===================== -->
+<div class="main">
+
+  <!-- Print-only letterhead: shown at the top of every page when printing -->
+  <div class="print-letterhead">
+    <img class="app-logo" src="logo.png" alt="Lanka Seagull Marine Company">
+    <div><strong>Lanka Seagull (Pvt) Ltd</strong><span>69/1 Mullikandal, Adampan · 077 834 8603</span></div>
+  </div>
+
+  <header class="topbar">
+    <button class="icon-btn only-mobile" id="menuToggle" aria-label="Toggle menu"><i data-ic="menu"></i></button>
+    <div class="topbar-title">
+      <h1 id="pageTitle">Dashboard</h1>
+      <p id="pageSubtitle">Overview of your business today</p>
+    </div>
+    <div class="topbar-actions">
+      <div class="global-search">
+        <i data-ic="search"></i>
+        <input type="text" id="globalSearch" placeholder="Search customers, products, invoices…">
+      </div>
+      <button class="icon-btn" id="notifBtn" title="Low stock alerts">
+        <i data-ic="bell"></i>
+        <span class="badge-dot" id="notifDot" hidden></span>
+      </button>
+      <div class="user-chip">
+        <div class="avatar" id="userAvatar">LS</div>
+        <div class="user-meta">
+          <strong id="userChipName">Admin</strong>
+          <span>Lanka Seagull</span>
+        </div>
+      </div>
+      <button class="icon-btn" id="logoutBtn" title="Log out"><i data-ic="logout"></i></button>
+    </div>
+  </header>
+
+  <main class="content" id="content">
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="page active" id="page-dashboard">
+      <div class="cards-grid" id="summaryCards"></div>
+
+      <div class="charts-grid">
+        <div class="panel span-2">
+          <div class="panel-head"><h3>Sales Overview</h3><span class="muted">Last 7 days</span></div>
+          <canvas id="chartSales" height="120"></canvas>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Monthly Profit</h3><span class="muted">Last 6 months</span></div>
+          <canvas id="chartProfit" height="120"></canvas>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Purchase Overview</h3><span class="muted">Last 7 days</span></div>
+          <canvas id="chartPurchase" height="120"></canvas>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Expenses Overview</h3><span class="muted">By category</span></div>
+          <canvas id="chartExpense" height="120"></canvas>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Cash Flow</h3><span class="muted">Cash vs Bank, 7 days</span></div>
+          <canvas id="chartCashflow" height="120"></canvas>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Recent Transactions</h3>
+          <button class="btn btn-ghost btn-sm" data-page="reports-center">View all</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr>
+              <th>Date</th><th>Reference No.</th><th>Customer/Supplier</th><th>Type</th>
+              <th>Amount</th><th>Payment Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="recentTxBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CUSTOMERS ============ -->
+    <section class="page" id="page-customers">
+      <div class="list-toolbar">
+        <div class="search-box"><i data-ic="search"></i><input type="text" id="customerSearch" placeholder="Search customers by name or phone…"></div>
+        <button class="btn btn-primary" id="btnAddCustomer"><i data-ic="plus"></i>Add Customer</button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Outstanding Balance</th><th>Actions</th></tr></thead>
+            <tbody id="customerTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUPPLIERS ============ -->
+    <section class="page" id="page-suppliers">
+      <div class="list-toolbar">
+        <div class="search-box"><i data-ic="search"></i><input type="text" id="supplierSearch" placeholder="Search suppliers by name or phone…"></div>
+        <button class="btn btn-primary" id="btnAddSupplier"><i data-ic="plus"></i>Add Supplier</button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Outstanding Payable</th><th>Actions</th></tr></thead>
+            <tbody id="supplierTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTS ============ -->
+    <section class="page" id="page-products">
+      <div class="list-toolbar">
+        <div class="search-box"><i data-ic="search"></i><input type="text" id="productSearch" placeholder="Search products by name or code…"></div>
+        <button class="btn btn-primary" id="btnAddProduct"><i data-ic="plus"></i>Add Product</button>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Image</th><th>Product</th><th>Code</th><th>Category</th><th>Purchase Price</th><th>Selling Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STOCK ============ -->
+    <section class="page" id="page-stock">
+      <div class="cards-grid cards-grid-sm" id="stockCards"></div>
+      <div class="list-toolbar">
+        <div class="search-box"><i data-ic="search"></i><input type="text" id="stockSearch" placeholder="Search products…"></div>
+        <div class="toolbar-btns">
+          <button class="btn btn-secondary" id="btnStockIn"><i data-ic="arrow-down"></i>Stock In</button>
+          <button class="btn btn-secondary" id="btnStockOut"><i data-ic="arrow-up"></i>Stock Out</button>
+          <button class="btn btn-secondary" id="btnStockAdjust"><i data-ic="sliders"></i>Adjustment</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Current Stock</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Product</th><th>Code</th><th>Current Stock</th><th>Min Stock</th><th>Status</th></tr></thead>
+            <tbody id="stockTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Stock History</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Product</th><th>Type</th><th>Qty</th><th>Note</th></tr></thead>
+            <tbody id="stockHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CASH SALES ============ -->
+    <section class="page" id="page-cash-sales">
+      <div class="panel">
+        <div class="panel-head"><h3>New Cash Sale</h3></div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Customer Search (optional)</label>
+            <input list="csCustomerList" id="csCustomer" placeholder="Walk-in Customer">
+            <datalist id="csCustomerList"></datalist>
+          </div>
+          <div class="field">
+            <label>Payment Method</label>
+            <select id="csPaymentMethod"><option>Cash</option><option>Card</option><option>Bank Transfer</option><option>Online Payment</option></select>
+          </div>
+        </div>
+        <div class="form-grid form-grid-4">
+          <div class="field span-2">
+            <label>Product Search</label>
+            <input list="csProductList" id="csProduct" placeholder="Type product name or code…">
+            <datalist id="csProductList"></datalist>
+          </div>
+          <div class="field"><label>Quantity</label><input type="number" id="csQty" value="1" min="1"></div>
+          <div class="field"><label>Unit Price</label><input type="number" id="csPrice" step="0.01"></div>
+        </div>
+        <button class="btn btn-ghost" id="csAddItem"><i data-ic="plus"></i>Add Item</button>
+
+        <div class="table-wrap" style="margin-top:12px">
+          <table class="data-table">
+            <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th><th></th></tr></thead>
+            <tbody id="csItemsBody"></tbody>
+          </table>
+        </div>
+
+        <div class="invoice-totals">
+          <div><span>Total</span><strong id="csTotal">Rs 0.00</strong></div>
+          <div class="field"><label>Amount Paid</label><input type="number" id="csPaid" step="0.01" value="0"></div>
+          <div><span>Balance</span><strong id="csBalance">Rs 0.00</strong></div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-primary" id="csComplete"><i data-ic="check"></i>Complete Sale</button>
+          <button class="btn btn-secondary" id="csPrint"><i data-ic="printer"></i>Print Receipt</button>
+          <button class="btn btn-secondary" id="csPdf"><i data-ic="file-text"></i>PDF Receipt</button>
+          <button class="btn btn-secondary" id="csJpg"><i data-ic="image"></i>JPG Receipt</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>Recent Cash Sales</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Ref</th><th>Customer</th><th>Total</th><th>Method</th><th>Actions</th></tr></thead>
+            <tbody id="cashSalesBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SALES INVOICES ============ -->
+    <section class="page" id="page-sales-invoices">
+      <div id="invoiceListView">
+        <div class="list-toolbar">
+          <div class="search-box"><i data-ic="search"></i><input type="text" id="invoiceSearch" placeholder="Search by invoice no. or customer…"></div>
+          <button class="btn btn-primary" id="btnNewInvoice"><i data-ic="plus"></i>New Sales Invoice</button>
+        </div>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Invoice No.</th><th>Customer</th><th>Grand Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="invoiceTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="invoiceFormView" hidden>
+        <div class="panel" id="invoicePrintArea">
+          <div class="invoice-doc-head">
+            <div class="doc-brand">
+              <img class="app-logo doc-logo" src="logo.png" alt="Lanka Seagull Marine Company">
+              <div>
+                <h2>Lanka Seagull (Pvt) Ltd</h2>
+                <p class="muted">69/1 Mullikandal, Adampan · 077 834 8603</p>
+              </div>
+            </div>
+            <div class="invoice-doc-meta">
+              <h3>SALES INVOICE</h3>
+              <div class="field"><label>Invoice Number</label><input type="text" id="invNo" readonly></div>
+              <div class="field"><label>Date</label><input type="date" id="invDate"></div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field span-2">
+              <label>Customer Search</label>
+              <input list="invCustomerList" id="invCustomer" placeholder="Type to search or add new…">
+              <datalist id="invCustomerList"></datalist>
+            </div>
+          </div>
+
+          <div class="form-grid form-grid-4 no-print">
+            <div class="field span-2">
+              <label>Item Name</label>
+              <input list="invProductList" id="invItemName" placeholder="Search product…">
+              <datalist id="invProductList"></datalist>
+            </div>
+            <div class="field"><label>Qty</label><input type="number" id="invItemQty" value="1" min="1"></div>
+            <div class="field"><label>Unit Price</label><input type="number" id="invItemPrice" step="0.01"></div>
+          </div>
+          <div class="form-grid form-grid-4 no-print">
+            <div class="field"><label>Discount</label><input type="number" id="invItemDiscount" step="0.01" value="0"></div>
+            <div class="field span-3" style="align-self:end"><button class="btn btn-ghost" id="invAddItem"><i data-ic="plus"></i>Add Item</button></div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Item Name</th><th>Qty</th><th>Unit Price</th><th>Discount</th><th>Total</th><th class="no-print"></th></tr></thead>
+              <tbody id="invItemsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="invoice-totals">
+            <div><span>Subtotal</span><strong id="invSubtotal">Rs 0.00</strong></div>
+            <div><span>Discount</span><strong id="invDiscountTotal">Rs 0.00</strong></div>
+            <div><span>Grand Total</span><strong id="invGrandTotal">Rs 0.00</strong></div>
+            <div class="field no-print"><label>Amount Paid</label><input type="number" id="invPaid" step="0.01" value="0"></div>
+            <div><span>Balance Due</span><strong id="invBalanceDue">Rs 0.00</strong></div>
+          </div>
+        </div>
+
+        <div class="action-row no-print">
+          <button class="btn btn-primary" id="invSave"><i data-ic="check"></i>Save Invoice</button>
+          <button class="btn btn-secondary" id="invPrint"><i data-ic="printer"></i>Print Invoice</button>
+          <button class="btn btn-secondary" id="invPdf"><i data-ic="file-text"></i>Download PDF</button>
+          <button class="btn btn-secondary" id="invJpg"><i data-ic="image"></i>Download JPG</button>
+          <button class="btn btn-ghost" id="invCancel"><i data-ic="x"></i>Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PURCHASES ============ -->
+    <section class="page" id="page-purchases">
+      <div id="purchaseListView">
+        <div class="list-toolbar">
+          <div class="search-box"><i data-ic="search"></i><input type="text" id="purchaseSearch" placeholder="Search by purchase no. or supplier…"></div>
+          <button class="btn btn-primary" id="btnNewPurchase"><i data-ic="plus"></i>New Purchase</button>
+        </div>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Purchase No.</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="purchaseTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="purchaseFormView" hidden>
+        <div class="panel">
+          <div class="form-grid">
+            <div class="field span-2">
+              <label>Supplier Search</label>
+              <input list="purSupplierList" id="purSupplier" placeholder="Type to search supplier…">
+              <datalist id="purSupplierList"></datalist>
+            </div>
+            <div class="field"><label>Purchase Number</label><input type="text" id="purNo" readonly></div>
+            <div class="field"><label>Date</label><input type="date" id="purDate"></div>
+          </div>
+
+          <div class="form-grid form-grid-4">
+            <div class="field span-2">
+              <label>Product</label>
+              <input list="purProductList" id="purItemName" placeholder="Search product…">
+              <datalist id="purProductList"></datalist>
+            </div>
+            <div class="field"><label>Quantity</label><input type="number" id="purItemQty" value="1" min="1"></div>
+            <div class="field"><label>Purchase Price</label><input type="number" id="purItemPrice" step="0.01"></div>
+          </div>
+          <button class="btn btn-ghost" id="purAddItem"><i data-ic="plus"></i>Add Item</button>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Product</th><th>Qty</th><th>Purchase Price</th><th>Total</th><th></th></tr></thead>
+              <tbody id="purItemsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="invoice-totals">
+            <div><span>Total</span><strong id="purTotal">Rs 0.00</strong></div>
+            <div class="field"><label>Paid Amount</label><input type="number" id="purPaid" step="0.01" value="0"></div>
+            <div><span>Balance</span><strong id="purBalance">Rs 0.00</strong></div>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-primary" id="purSave"><i data-ic="check"></i>Save Purchase</button>
+          <button class="btn btn-ghost" id="purCancel"><i data-ic="x"></i>Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAYMENT RECEIPTS ============ -->
+    <section class="page" id="page-payment-receipts">
+      <div class="panel" id="receiptPrintArea">
+        <div class="panel-head"><h3>New Payment Receipt</h3><img class="app-logo doc-logo" src="logo.png" alt="Lanka Seagull Marine Company"></div>
+        <div class="form-grid form-grid-4">
+          <div class="field"><label>Receipt Number</label><input type="text" id="recNo" readonly></div>
+          <div class="field"><label>Date</label><input type="date" id="recDate"></div>
+          <div class="field"><label>Payment Type</label><select id="recType"><option value="in">Receive (from Customer)</option><option value="out">Pay (to Supplier)</option></select></div>
+          <div class="field"><label>Payment Method</label><select id="recMethod"><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>Online Payment</option></select></div>
+        </div>
+        <div class="form-grid form-grid-4">
+          <div class="field span-2"><label>Customer / Supplier</label><input list="recPartyList" id="recParty" placeholder="Search…"><datalist id="recPartyList"></datalist></div>
+          <div class="field"><label>Amount</label><input type="number" id="recAmount" step="0.01"></div>
+          <div class="field"><label>Reference</label><input type="text" id="recRef" placeholder="Cheque / Txn no."></div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="recNotes" rows="2"></textarea></div>
+      </div>
+      <div class="action-row no-print">
+        <button class="btn btn-primary" id="recSave"><i data-ic="check"></i>Save</button>
+        <button class="btn btn-secondary" id="recPrint"><i data-ic="printer"></i>Print</button>
+        <button class="btn btn-secondary" id="recPdf"><i data-ic="file-text"></i>PDF</button>
+        <button class="btn btn-secondary" id="recJpg"><i data-ic="image"></i>JPG</button>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Receipt History</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Receipt No.</th><th>Party</th><th>Type</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead>
+            <tbody id="receiptTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CASH BOOK ============ -->
+    <section class="page" id="page-cash-book">
+      <div class="list-toolbar">
+        <div class="filter-chips" id="cashBookFilters">
+          <button class="chip active" data-range="today">Today</button>
+          <button class="chip" data-range="week">This Week</button>
+          <button class="chip" data-range="month">This Month</button>
+          <button class="chip" data-range="all">All</button>
+        </div>
+        <div class="toolbar-btns">
+          <input type="date" id="cashBookFrom">
+          <input type="date" id="cashBookTo">
+          <button class="btn btn-secondary btn-sm" id="cashBookCustomBtn">Apply</button>
+        </div>
+      </div>
+      <div class="cards-grid cards-grid-sm" id="cashBookSummary"></div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Reference</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead>
+            <tbody id="cashBookBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BANK & PAYMENTS ============ -->
+    <section class="page" id="page-bank-payments">
+      <div class="cards-grid cards-grid-sm" id="bankCards"></div>
+      <div class="panel">
+        <div class="panel-head"><h3>Transfer Between Cash &amp; Bank</h3></div>
+        <div class="form-grid form-grid-4">
+          <div class="field"><label>From</label><select id="trFrom"><option>Cash</option><option>Bank</option></select></div>
+          <div class="field"><label>To</label><select id="trTo"><option>Bank</option><option>Cash</option></select></div>
+          <div class="field"><label>Amount</label><input type="number" id="trAmount" step="0.01"></div>
+          <div class="field" style="align-self:end"><button class="btn btn-secondary" id="trSubmit"><i data-ic="check"></i>Transfer</button></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>All Account Movements</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Account</th><th>Description</th><th>Deposit</th><th>Withdrawal</th><th>Balance</th></tr></thead>
+            <tbody id="bankTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DAILY EXPENSES ============ -->
+    <section class="page" id="page-daily-expenses">
+      <div class="panel">
+        <div class="panel-head"><h3>Add Expense</h3></div>
+        <div class="form-grid form-grid-4">
+          <div class="field"><label>Date</label><input type="date" id="expDate"></div>
+          <div class="field"><label>Category</label>
+            <select id="expCategory">
+              <option>Electricity</option><option>Food</option><option>Transport</option><option>Salary</option>
+              <option>Office</option><option>Materials</option><option>Rent</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Amount</label><input type="number" id="expAmount" step="0.01"></div>
+          <div class="field"><label>Payment Method</label><select id="expMethod"><option>Cash</option><option>Bank</option><option>Card</option></select></div>
+        </div>
+        <div class="form-grid">
+          <div class="field span-2"><label>Description</label><input type="text" id="expDescription" placeholder="Short description"></div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="expNotes" rows="2"></textarea></div>
+        <div class="action-row"><button class="btn btn-primary" id="expSave"><i data-ic="plus"></i>Add Expense</button></div>
+      </div>
+      <div class="panel">
+        <div class="list-toolbar" style="padding:0 0 12px">
+          <div class="search-box"><i data-ic="search"></i><input type="text" id="expenseSearch" placeholder="Search expenses…"></div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead>
+            <tbody id="expenseTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DAILY BUSINESS REPORT ============ -->
+    <section class="page" id="page-daily-report">
+      <div class="panel">
+        <div class="form-grid">
+          <div class="field"><label>Select Date</label><input type="date" id="reportDate"></div>
+          <div class="field" style="align-self:end"><button class="btn btn-primary" id="reportGenerate"><i data-ic="check"></i>Generate Report</button></div>
+        </div>
+      </div>
+      <div class="panel" id="dailyReportArea">
+        <div class="panel-head"><h3>Daily Business Report</h3><span class="muted" id="dailyReportDateLabel"></span></div>
+        <div class="report-grid" id="dailyReportGrid"></div>
+      </div>
+      <div class="action-row no-print">
+        <button class="btn btn-secondary" id="dailyReportPrint"><i data-ic="printer"></i>Print</button>
+      </div>
+    </section>
+
+    <!-- ============ REPORTS CENTER ============ -->
+    <section class="page" id="page-reports-center">
+      <div class="tabs" id="reportTabs">
+        <button class="tab active" data-report="sales">Sales</button>
+        <button class="tab" data-report="purchase">Purchase</button>
+        <button class="tab" data-report="expense">Expense</button>
+        <button class="tab" data-report="customer">Customer</button>
+        <button class="tab" data-report="supplier">Supplier</button>
+        <button class="tab" data-report="stock">Stock</button>
+        <button class="tab" data-report="pnl">Profit &amp; Loss</button>
+        <button class="tab" data-report="cashflow">Cash Flow</button>
+        <button class="tab" data-report="receivables">Receivables</button>
+        <button class="tab" data-report="payables">Payables</button>
+      </div>
+      <div class="list-toolbar">
+        <div class="toolbar-btns">
+          <input type="date" id="repFrom"><span class="muted">to</span><input type="date" id="repTo">
+          <button class="btn btn-secondary btn-sm" id="repApply">Apply Filter</button>
+        </div>
+        <div class="search-box"><i data-ic="search"></i><input type="text" id="repSearch" placeholder="Search within report…"></div>
+        <div class="toolbar-btns">
+          <button class="btn btn-ghost btn-sm" id="repPrint"><i data-ic="printer"></i>Print</button>
+          <button class="btn btn-ghost btn-sm" id="repPdf"><i data-ic="file-text"></i>Export PDF</button>
+          <button class="btn btn-ghost btn-sm" id="repCsv"><i data-ic="download"></i>Export CSV</button>
+        </div>
+      </div>
+      <div class="panel" id="reportOutput"></div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="page" id="page-settings">
+      <div class="panel">
+        <div class="panel-head"><h3>Company Information</h3></div>
+        <div class="form-grid">
+          <div class="field"><label>Company Name</label><input type="text" id="setCompanyName"></div>
+          <div class="field"><label>Phone</label><input type="text" id="setPhone"></div>
+          <div class="field span-2"><label>Address</label><input type="text" id="setAddress"></div>
+          <div class="field"><label>Currency Symbol</label><input type="text" id="setCurrency"></div>
+        </div>
+        <div class="action-row"><button class="btn btn-primary" id="setSave"><i data-ic="check"></i>Save Settings</button></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Account &amp; Security</h3></div>
+        <p class="muted">Your sign-in details for this device. This controls access to the dashboard in this browser only.</p>
+        <div class="form-grid">
+          <div class="field"><label>Username</label><input type="text" id="accUsername"></div>
+          <div class="field"><label>New Password</label><input type="password" id="accPassword" placeholder="Leave blank to keep current password"></div>
+        </div>
+        <div class="action-row"><button class="btn btn-primary" id="accSave"><i data-ic="check"></i>Update Login Details</button></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Data Management</h3></div>
+        <p class="muted">All data is stored locally in this browser via LocalStorage. No data leaves this device.</p>
+        <div class="action-row">
+          <button class="btn btn-secondary" id="btnExportData"><i data-ic="download"></i>Export All Data (JSON)</button>
+          <button class="btn btn-danger" id="btnClearAll"><i data-ic="trash"></i>Clear All Data</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</div><!-- /#appShell -->
+
+
+<!-- ===================== MODAL ROOT ===================== -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modalBox" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h3 id="modalTitle">Title</h3>
+      <button class="icon-btn" id="modalClose"><i data-ic="x"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- ===================== CONFIRM DIALOG ===================== -->
+<div class="modal-backdrop" id="confirmBackdrop">
+  <div class="modal modal-sm">
+    <div class="modal-body">
+      <div class="confirm-icon"><i data-ic="alert"></i></div>
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <p id="confirmMessage" class="muted">This action cannot be undone.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger" id="confirmOk">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TOASTS ===================== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="logo-data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
